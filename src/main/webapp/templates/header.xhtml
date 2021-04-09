@@ -1,0 +1,65 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<!-- Header Section Begin -->
+	<header class="header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xl-3 col-lg-2">
+					<div class="header__logo">
+						<a href="./index.html"> <h:graphicImage name="logo.png"
+								library="img" />
+						</a>
+					</div>
+				</div>
+				<div class="col-xl-6 col-lg-7">
+					<nav class="header__menu">
+						<h:form>
+					        <f:ajax render="content">
+					            <ul>
+					            	<li><h:commandLink value="All products" action="#{bean.setPage('content')}" /></li>  
+					                <li><h:commandLink value="product-list" action="#{bean.setPage('product-list')}" /></li>            
+					                <li><h:commandLink value="Cart" action="#{bean.setPage('payment')}" /></li>            
+					            </ul>
+					        </f:ajax>
+					    </h:form>
+					</nav>
+				</div>
+				<div class="col-lg-3">
+					<div class="header__right">
+						<!-- <div class="header__right__auth">
+							<c:if
+								test="#{facesContext.externalContext.sessionMap.get('user') != null}">
+								<a href="#">#{facesContext.externalContext.sessionMap.get('user').name}</a>
+								<h:form>
+									<h:commandButton action="#{userBean.logout()}"
+										value="Đăng xuất" />
+								</h:form>
+							</c:if>
+							<c:if
+								test="#{facesContext.externalContext.sessionMap.get('user') == null}">
+								<a href="#">Đăng nhập</a>
+								<a href="#">Đăng ký</a>
+							</c:if>
+						</div> -->
+						<ul class="header__right__widget">
+							<li><a href="#"><span class="icon_bag_alt"></span>
+									<div class="tip">
+									<h:outputText id="bag_value" value="#{cartBean.soLuongSanPham}"/>
+									</div> 
+								</a>
+							</li>
+									
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="canvas__open">
+				<i class="fa fa-bars"></i>
+			</div>
+		</div>
+	</header>
+	<!-- Header Section End -->
+</ui:composition>
