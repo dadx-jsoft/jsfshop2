@@ -20,7 +20,7 @@ import com.dht.pojo.Product;
 import com.dht.service.ProductService;
 
 //@ManagedBean
-@Named("productBean")
+@Named
 @SessionScoped
 //@RequestScoped
 public class ProductBean implements Serializable {
@@ -34,7 +34,7 @@ public class ProductBean implements Serializable {
 	private Category category;
 	private Set<Manufacturer> manufacturers;
 	private Part imgFile;
-
+	
 	@Inject
 	private Bean bean;
 
@@ -42,42 +42,52 @@ public class ProductBean implements Serializable {
 		return productSevice;
 	}
 
-	public ProductBean() {
-		if (!FacesContext.getCurrentInstance().isPostback()) {
-			String productId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
-					.get("product_id");
-			if (productId != null && !productId.isEmpty()) {
-				Product p = productSevice.getProductById(Integer.parseInt(productId));
-				this.productId = p.getId();
-				this.name = p.getName();
-				this.description = p.getDescription();
-				this.price = p.getPrice();
-				this.category = p.getCategory();
-				this.manufacturers = p.getManufacturers();
-			}
-		}
-
-	}
+//	public ProductBean() {
+//		if (!FacesContext.getCurrentInstance().isPostback()) {
+//			String productId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
+//					.get("product_id");
+//			if (productId != null && !productId.isEmpty()) {
+//				Product p = productSevice.getProductById(Integer.parseInt(productId));
+//				this.productId = p.getId();
+//				this.name = p.getName();
+//				this.description = p.getDescription();
+//				this.price = p.getPrice();
+//				this.category = p.getCategory();
+//				this.manufacturers = p.getManufacturers();
+//			}
+//		}
+//
+//	}
 
 	public void initEdit1(Product p) {
 //		if (!FacesContext.getCurrentInstance().isPostback()) {
 //			String productId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
 //					.get("product_id");
-		System.out.println("--------------"+p.getId());
-			//if (proId > 0) {
-			//Product p = productSevice.getProductById(proId);
-			this.productId = p.getId();
-			this.name = p.getName();
-			this.description = p.getDescription();
-			this.price = p.getPrice();
-			this.category = p.getCategory();
-			this.manufacturers = p.getManufacturers();
-			bean.setPage("products");
 
-		//}
+		// if (proId > 0) {
+//		Product p = productSevice.getProductById(proId);
+		System.out.println("product--------------" + p.getId());
+		System.out.println("productBean--------------" + this.getProductId());
+		this.productId = p.getId();
+		this.name = p.getName();
+		this.description = p.getDescription();
+		this.price = p.getPrice();
+		this.category = p.getCategory();
+		this.manufacturers = p.getManufacturers();
+		//bean.setPage("products");
+
+		// }
 //		}
 
 	}
+
+	/*
+	 * public void editProduct(Product p) { System.out.println("--------------" +
+	 * p.getId()); this.productId = p.getId(); this.name = p.getName();
+	 * this.description = p.getDescription(); this.price = p.getPrice();
+	 * this.category = p.getCategory(); this.manufacturers = p.getManufacturers();
+	 * bean.setPage("products"); // return "products"; }
+	 */
 
 	public List<Product> getProducts() {
 		return productSevice.getProducts(null);

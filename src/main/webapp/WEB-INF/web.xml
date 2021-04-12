@@ -7,9 +7,13 @@
 	<welcome-file-list>
 		<welcome-file>index.xhtml</welcome-file>
 	</welcome-file-list>
-	
+
 	<context-param>
 		<param-name>uploadPath</param-name>
 		<param-value>C:\eclipsewp\learn-steve\jsfshop\src\main\webapp\resources\images\upload</param-value>
+	</context-param>
+	<context-param>
+		<param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+		<param-value>true</param-value>
 	</context-param>
 </web-app>

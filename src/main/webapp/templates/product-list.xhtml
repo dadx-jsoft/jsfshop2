@@ -6,60 +6,56 @@
 	<div class="container">
 		<h1 class="text-center">#{pMsg['product.admin']}</h1>
 
-	    <!-- <f:ajax render=":content">
-	        <h:commandLink value="#{pMsg['product.add']}" action="#{bean.setPage('products')}" styleClass="btn btn-warning"/>
-	    </f:ajax> -->
 		<h:form>
-		<h:commandLink value="#{pMsg['product.add']}" action="#{bean.setPage('products')}" styleClass="btn btn-warning">
-			<f:ajax render=":content"/>
-		</h:commandLink>
-		
-		<h:dataTable var="product" value="#{productBean.products}"
-			styleClass="table">
-			<h:column>
-				<f:facet name="header">#{pMsg['product.id']}</f:facet>
+	
+
+			<h:dataTable var="product" value="#{productBean.products}"
+				styleClass="table">
+				<h:column>
+					<f:facet name="header">#{pMsg['product.id']}</f:facet>
         					#{product.id}
         				</h:column>
-			<h:column>
-				<f:facet name="header">#{pMsg['product.name']}</f:facet>
+				<h:column>
+					<f:facet name="header">#{pMsg['product.name']}</f:facet>
         					#{product.name}
         				</h:column>
-			<h:column>
-				<f:facet name="header">#{pMsg['product.description']}</f:facet>
+				<h:column>
+					<f:facet name="header">#{pMsg['product.description']}</f:facet>
         					#{product.description}
         				</h:column>
-			<h:column>
-				<f:facet name="header">#{pMsg['product.price']}</f:facet>
+				<h:column>
+					<f:facet name="header">#{pMsg['product.price']}</f:facet>
         					#{product.price}
         				</h:column>
-			<h:column>
-				<f:facet name="header">#{pMsg['product.cate']}</f:facet>
+				<h:column>
+					<f:facet name="header">#{pMsg['product.cate']}</f:facet>
         					#{product.category.name}
         				</h:column>
-			<h:column>
-				<f:facet name="header">#{pMsg['product.manufacturer']}</f:facet>
-				<h:dataTable var="manu" value="#{product.manufacturers}">
-					<h:column>
-						<f:facet name="header"></f:facet>
+				<h:column>
+					<f:facet name="header">#{pMsg['product.manufacturer']}</f:facet>
+					<h:dataTable var="manu" value="#{product.manufacturers}">
+						<h:column>
+							<f:facet name="header"></f:facet>
         				#{manu.name}
         			</h:column>
-				</h:dataTable>
-			</h:column>
-			
-			<h:column>
-				<f:facet name="header">Action</f:facet>
-					<h:commandLink value="#{pMsg['product.update']}" action="#{productBean.initEdit1(product)}">
+					</h:dataTable>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Action</f:facet>
+					<h:commandButton value="#{pMsg['product.update']}" action="#{productBean.initEdit1(product)}">
+						#{product.id}
 						<!-- <f:param name="product_id" value="#{product.id}"/> -->
-						<f:ajax render=":content" />
-					</h:commandLink>
+						<f:ajax render=":content"/>
+					</h:commandButton>
 					|
 					<h:commandLink value="#{pMsg['product.delete']}">
-						<f:ajax listener="#{productBean.deleteProduct(product)}" 
+						<f:ajax listener="#{productBean.deleteProduct(product)}"
 							onevent="deleteSuccess" onerror="deleteError" />
 					</h:commandLink>
-			</h:column>
+				</h:column>
 
-		</h:dataTable>
+			</h:dataTable>
 		</h:form>
 	</div>
 	<script type="text/javascript">

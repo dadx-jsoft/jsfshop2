@@ -1,0 +1,12 @@
++ Cách remove compile comment in jsf: https://stackoverflow.com/questions/3500738/invisible-comments-in-jsf-2-0
++ Cách bỏ đuôi -0.0.1-SNAPSHOT trong wildfly: 
+
+
+công việc: 
++ viết custom validator: validate date, validate text input
++ viết custom converter: convert string -> obj, string -> date
+
++ Thêm bảng order va order item:
++ Trên trang order thêm 1 form để khách hàng nhập thông tin chung: họ tên, ngày đặt hàng, địa chỉ, số điện thoại
+bên dưới có nút thêm sản phẩm theo id.
+
