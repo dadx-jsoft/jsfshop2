@@ -14,7 +14,19 @@
 		<deployment.name>${project.build.finalName}.${project.packaging}</deployment.name>
 	</properties>
 
-	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.wildfly.plugins</groupId>
+				<artifactId>wildfly-maven-plugin</artifactId>
+				<version>1.1.0.Alpha7</version>
+				<configuration>
+					<name>${deployment.name}</name>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 
 	<dependencies>
 		<dependency>
