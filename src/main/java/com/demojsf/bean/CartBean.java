@@ -1,4 +1,4 @@
-package com.dht.bean;
+package com.demojsf.bean;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

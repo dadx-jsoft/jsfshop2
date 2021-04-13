@@ -1,4 +1,4 @@
-package com.dht.bean;
+package com.demojsf.bean;
 
 import java.io.Serializable;
 import java.util.List;
@@ -6,10 +6,10 @@ import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
-import com.dht.pojo.Category;
-import com.dht.pojo.Manufacturer;
-import com.dht.service.CategoryService;
-import com.dht.service.ManufacturerService;
+import com.demojsf.pojo.Category;
+import com.demojsf.pojo.Manufacturer;
+import com.demojsf.service.CategoryService;
+import com.demojsf.service.ManufacturerService;
 
 //@ManagedBean
 @Named

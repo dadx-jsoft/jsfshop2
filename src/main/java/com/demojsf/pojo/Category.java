@@ -1,29 +1,24 @@
-package com.dht.pojo;
+package com.demojsf.pojo;
 
 import java.io.Serializable;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "manufacturer", schema = "public")
-public class Manufacturer implements Serializable {
+@Table(name = "category", schema = "public")
+public class Category implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
-	private String country;
 
 	@Override
 	public String toString() {
 		return String.valueOf(this.id);
 	}
 
-	@Override
+//	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -39,7 +34,7 @@ public class Manufacturer implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Manufacturer other = (Manufacturer) obj;
+		Category other = (Category) obj;
 		if (id != other.id)
 			return false;
 		return true;
@@ -59,14 +54,6 @@ public class Manufacturer implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getCountry() {
-		return country;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
 	}
 
 }

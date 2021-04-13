@@ -1,4 +1,4 @@
-package com.dht.bean;
+package com.demojsf.bean;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -14,10 +14,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
 
-import com.dht.pojo.Category;
-import com.dht.pojo.Manufacturer;
-import com.dht.pojo.Product;
-import com.dht.service.ProductService;
+import com.demojsf.pojo.Category;
+import com.demojsf.pojo.Manufacturer;
+import com.demojsf.pojo.Product;
+import com.demojsf.service.ProductService;
 
 //@ManagedBean
 @Named
@@ -34,7 +34,7 @@ public class ProductBean implements Serializable {
 	private Category category;
 	private Set<Manufacturer> manufacturers;
 	private Part imgFile;
-	
+
 	@Inject
 	private Bean bean;
 
@@ -59,13 +59,11 @@ public class ProductBean implements Serializable {
 //
 //	}
 
-	public void initEdit1(Product p) {
+	public void initEdit(Product p) {
 //		if (!FacesContext.getCurrentInstance().isPostback()) {
 //			String productId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
 //					.get("product_id");
 
-		// if (proId > 0) {
-//		Product p = productSevice.getProductById(proId);
 		System.out.println("product--------------" + p.getId());
 		System.out.println("productBean--------------" + this.getProductId());
 		this.productId = p.getId();
@@ -74,9 +72,8 @@ public class ProductBean implements Serializable {
 		this.price = p.getPrice();
 		this.category = p.getCategory();
 		this.manufacturers = p.getManufacturers();
-		//bean.setPage("products");
+		bean.setPage("products");
 
-		// }
 //		}
 
 	}

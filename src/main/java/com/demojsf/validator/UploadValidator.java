@@ -1,4 +1,4 @@
-package com.dht.validator;
+package com.demojsf.validator;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;

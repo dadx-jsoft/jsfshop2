@@ -1,4 +1,4 @@
-package com.dht.pojo;
+package com.demojsf.pojo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

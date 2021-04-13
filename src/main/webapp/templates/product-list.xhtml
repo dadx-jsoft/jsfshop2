@@ -43,7 +43,7 @@
 
 				<h:column>
 					<f:facet name="header">Action</f:facet>
-					<h:commandButton value="#{pMsg['product.update']}" action="#{productBean.initEdit1(product)}">
+					<h:commandButton value="#{pMsg['product.update']}" action="#{productBean.initEdit(product)}">
 						#{product.id}
 						<!-- <f:param name="product_id" value="#{product.id}"/> -->
 						<f:ajax render=":content"/>

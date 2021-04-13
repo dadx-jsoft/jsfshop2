@@ -1,4 +1,4 @@
-package com.dht;
+package com.demojsf;
 
 import java.util.Properties;
 
@@ -8,9 +8,9 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 
-import com.dht.pojo.Category;
-import com.dht.pojo.Manufacturer;
-import com.dht.pojo.Product;
+import com.demojsf.pojo.Category;
+import com.demojsf.pojo.Manufacturer;
+import com.demojsf.pojo.Product;
 
 public class HibernateUtil {
 
@@ -30,9 +30,9 @@ public class HibernateUtil {
 		 */
 		
 		props.put(Environment.DRIVER, "org.postgresql.Driver");
-		props.put(Environment.URL, "jdbc:postgresql://localhost:5433/jsfsaledb?useSSL=false");
+		props.put(Environment.URL, "jdbc:postgresql://localhost:5432/jsfsaledb?useSSL=false");
 		props.put(Environment.USER, "postgres");
-		props.put(Environment.PASS, "root");
+		props.put(Environment.PASS, "postgres");
 		props.put(Environment.DIALECT, "org.hibernate.dialect.PostgreSQLDialect");
 
 //		props.put(Environment.SHOW_SQL, "true");

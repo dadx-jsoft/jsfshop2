@@ -1,4 +1,5 @@
 + Cách remove compile comment in jsf: https://stackoverflow.com/questions/3500738/invisible-comments-in-jsf-2-0
+	hoặc dùng file: jboss-web.xml
 + Cách bỏ đuôi -0.0.1-SNAPSHOT trong wildfly: https://stackoverflow.com/questions/36486258/wildfly-maven-plugin-ignores-deployment-name
 
 

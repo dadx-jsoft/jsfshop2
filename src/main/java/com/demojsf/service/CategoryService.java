@@ -1,4 +1,4 @@
-package com.dht.service;
+package com.demojsf.service;
 
 import java.util.List;
 
@@ -9,8 +9,8 @@ import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import com.dht.HibernateUtil;
-import com.dht.pojo.Category;
+import com.demojsf.HibernateUtil;
+import com.demojsf.pojo.Category;
 
 public class CategoryService {
 	private final static SessionFactory factory = HibernateUtil.getFactory();

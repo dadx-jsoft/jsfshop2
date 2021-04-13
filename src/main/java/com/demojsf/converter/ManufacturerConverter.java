@@ -1,18 +1,18 @@
-package com.dht.converter;
+package com.demojsf.converter;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-import com.dht.service.CategoryService;
+import com.demojsf.service.ManufacturerService;
 
-@FacesConverter(value = "CategoryConverter")
-public class CategoryConverter implements Converter{
+@FacesConverter(value = "ManufacturerConverter")
+public class ManufacturerConverter implements Converter{
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		return new CategoryService().getCategoryById(Integer.parseInt(value));
+		return new ManufacturerService().getManufacturerById(Integer.parseInt(value));
 	}
 
 	@Override
