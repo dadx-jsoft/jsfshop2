@@ -4,10 +4,19 @@
 
 
 công việc: 
++ Thêm bảng order va order item:
++ ok - Trên trang order: thêm 1 form để khách hàng nhập thông tin chung: họ tên, địa chỉ, số điện thoại, email, ngày đặt hàng
+					bên dưới có nút thêm sản phẩm theo id.
+
 + viết custom validator: validate date, validate text input
 + viết custom converter: convert string -> obj, string -> date
+tham khảo: https://examples.javacodegeeks.com/enterprise-java/jsf/jsf-form-example/
 
-+ Thêm bảng order va order item:
-+ Trên trang order thêm 1 form để khách hàng nhập thông tin chung: họ tên, ngày đặt hàng, địa chỉ, số điện thoại
-bên dưới có nút thêm sản phẩm theo id.
+jpa: entity là gì-class mapping vs table, học và áp dụng vào demo
+Casecade: ALL, fetchType
+Annotation @Transactional,  
+2 cột là key?
+EtityManager có hàm refresh
+rowexpantion của primefaces, trường date trên primefaces sẽ làm việc vs trường date của mình
 
++ 9h52: cách support UTF-8 trong eclipse

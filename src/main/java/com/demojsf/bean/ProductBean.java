@@ -70,7 +70,7 @@ public class ProductBean implements Serializable {
 		this.price = p.getPrice();
 		this.category = p.getCategory();
 		this.manufacturers = p.getManufacturers();
-		bean.setPage("products");
+		bean.setPage("save-update-product");
 
 //		}
 
@@ -132,7 +132,7 @@ public class ProductBean implements Serializable {
 			e.printStackTrace();
 		}
 
-		bean.setPage("products");
+		bean.setPage("save-update-product");
 //		return "products";
 	}
 
