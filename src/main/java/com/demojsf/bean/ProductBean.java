@@ -64,8 +64,6 @@ public class ProductBean implements Serializable {
 //			String productId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
 //					.get("product_id");
 
-		System.out.println("product--------------" + p.getId());
-		System.out.println("productBean--------------" + this.getProductId());
 		this.productId = p.getId();
 		this.name = p.getName();
 		this.description = p.getDescription();
