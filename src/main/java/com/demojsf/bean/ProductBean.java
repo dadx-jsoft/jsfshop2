@@ -8,7 +8,9 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -76,42 +78,52 @@ public class ProductBean implements Serializable {
 
 	}
 
-	/*
-	 * public void editProduct(Product p) { System.out.println("--------------" +
-	 * p.getId()); this.productId = p.getId(); this.name = p.getName();
-	 * this.description = p.getDescription(); this.price = p.getPrice();
-	 * this.category = p.getCategory(); this.manufacturers = p.getManufacturers();
-	 * bean.setPage("products"); // return "products"; }
-	 */
+	public void initAdd() {
+//		if (!FacesContext.getCurrentInstance().isPostback()) {
+//			String productId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
+//					.get("product_id");
 
-	public List<Product> getProducts() {
-		return productSevice.getProducts(null);
-	}
+//		this.productId = p.getId();
+//		this.name = p.getName();
+//		this.description = p.getDescription();
+//		this.price = p.getPrice();
+//		this.category = p.getCategory();
+//		this.manufacturers = p.getManufacturers();
+		bean.setPage("add-product");
 
-	private void uploadFile() throws IOException {
-//		String path = FacesContext.getCurrentInstance().getExternalContext()
-//									.getRealPath("/resources/images/upload")
-//									+"/"+this.imgFile.getSubmittedFileName();
-		String path = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("uploadPath") + "/"
-				+ this.imgFile.getSubmittedFileName();
-		try (InputStream in = this.imgFile.getInputStream(); FileOutputStream out = new FileOutputStream(path)) {
-			byte[] b = new byte[1024];
-			int byteRead;
+//		}
 
-			while ((byteRead = in.read(b)) != -1) {
-				out.write(b, 0, byteRead);
-			}
-		}
 	}
 
 	public void addProduct() {
 
-		Product p;
-		if (this.productId > 0) {
-			p = productSevice.getProductById(this.productId);
-		} else {
-			p = new Product();
+		Product p = new Product();
+		p.setName(this.name);
+		p.setDescription(this.description);
+		p.setPrice(this.price);
+		p.setCategory(this.category);
+		p.setManufacturers(this.manufacturers);
+
+		try {
+			if (this.imgFile != null) {
+				this.uploadFile();
+				p.setImage("upload/" + this.imgFile.getSubmittedFileName());
+			}
+
+			if (productSevice.addOrSaveProduct(p)) {
+				bean.setPage("product-list");
+//				return "product-list?faces-redirect=true";
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+
+		bean.setPage("save-update-product");
+//		return "products";
+	}
+
+	public void editProduct() {
+		Product p = productSevice.getProductById(this.productId);
 		p.setName(this.name);
 		p.setDescription(this.description);
 		p.setPrice(this.price);
@@ -140,6 +152,26 @@ public class ProductBean implements Serializable {
 		if (productSevice.deleteProduct(p))
 			return "successful";
 		throw new Exception("Something wrong !");
+	}
+
+	public List<Product> getProducts() {
+		return productSevice.getProducts(null);
+	}
+
+	private void uploadFile() throws IOException {
+//		String path = FacesContext.getCurrentInstance().getExternalContext()
+//									.getRealPath("/resources/images/upload")
+//									+"/"+this.imgFile.getSubmittedFileName();
+		String path = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("uploadPath") + "/"
+				+ this.imgFile.getSubmittedFileName();
+		try (InputStream in = this.imgFile.getInputStream(); FileOutputStream out = new FileOutputStream(path)) {
+			byte[] b = new byte[1024];
+			int byteRead;
+
+			while ((byteRead = in.read(b)) != -1) {
+				out.write(b, 0, byteRead);
+			}
+		}
 	}
 
 	public String getName() {

@@ -45,15 +45,11 @@
 				<h:message for="fileImage" styleClass="alert alert-danger" />
 			</div>
 			<div class="form-group">
-				<h:inputHidden value="#{productBean.productId}" />
-
-				<h:commandButton
+				
+				<h:commandButton action="#{productBean.addProduct()}"
 					value="#{pMsg['product.add']}" styleClass="btn btn-warning">
-					<f:ajax render=":content" execute="@form" listener="#{productBean.editProduct()}"/>
+					<f:ajax render=":content"/>
 				</h:commandButton>
-				<!-- <f:ajax render=":content">
-					<h:commandButton action="#{productBean.editProduct()}" value="#{pMsg['product.add']}"/>
-				</f:ajax> -->
 			</div>
 
 		</h:form>
