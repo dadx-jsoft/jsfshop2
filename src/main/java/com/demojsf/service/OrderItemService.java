@@ -4,43 +4,34 @@ import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import com.demojsf.HibernateUtil;
-import com.demojsf.pojo.Product;
+import com.demojsf.pojo.OrderItem;
 
-public class ProductService {
+public class OrderItemService {
 	private final static SessionFactory factory = HibernateUtil.getFactory();
 
-	public List<Product> getProducts(String kw) {
+	public List<OrderItem> getOrderItems() {
 		try (Session session = factory.openSession()) {
 			CriteriaBuilder builder = session.getCriteriaBuilder();
-			CriteriaQuery<Product> query = builder.createQuery(Product.class);
-			Root<Product> root = query.from(Product.class);
+			CriteriaQuery<OrderItem> query = builder.createQuery(OrderItem.class);
+			Root<OrderItem> root = query.from(OrderItem.class);
 			query.select(root);
 
-//			if (kw != null && !kw.isEmpty()) {
-//				String p = String.format("%%%s%%", kw);
-//				Predicate p1 = builder.like(root.get("name").as(String.class), p);
-//				Predicate p2 = builder.like(root.get("description").as(String.class), p);
-//
-//				query = query.where(builder.or(p1, p2));
-//			}
-
-			List<Product> list = session.createQuery(query).getResultList();
+			List<OrderItem> list = session.createQuery(query).getResultList();
 			return list;
 		}
 	}
 
-	public boolean addOrSaveProduct(Product product) {
+	public boolean addOrSaveOrderItem(OrderItem orderItem) {
 		try (Session session = factory.openSession()) {
 			try {
 				session.getTransaction().begin();
-				session.saveOrUpdate(product);
+				session.saveOrUpdate(orderItem);
 				session.getTransaction().commit();
 			} catch (Exception e) {
 				session.getTransaction().rollback();
@@ -49,26 +40,26 @@ public class ProductService {
 		}
 		return true;
 	}
-	
-	public boolean deleteProduct(Product p) { // p phải ở trạng thái persistent
+
+	public boolean deleteOrderItem(OrderItem orderItem) { // p phải ở trạng thái persistent
 		try (Session session = factory.openSession()) {
 			try {
 				session.getTransaction().begin();
-				session.delete(p);
+				session.delete(orderItem);
 				session.getTransaction().commit();
-			}catch (Exception e) {
+			} catch (Exception e) {
 				session.getTransaction().rollback();
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
-	
-	public Product getProductById(int productId) {
+
+	public OrderItem getOrderItemById(int orderItemId) {
 		try (Session session = factory.openSession()) {
-			return session.get(Product.class, productId);
+			return session.get(OrderItem.class, orderItemId);
 		}
-		
+
 	}
 }
