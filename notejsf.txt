@@ -20,3 +20,5 @@ EtityManager có hàm refresh
 rowexpantion của primefaces, trường date trên primefaces sẽ làm việc vs trường date của mình
 
 + 9h52: cách support UTF-8 trong eclipse
+
++ tham khảo dùng primefaces + hibernate: https://www.c-sharpcorner.com/article/primefaces-5-and-hibernate-5-crud-using-netbeans-8-02-and-my/
