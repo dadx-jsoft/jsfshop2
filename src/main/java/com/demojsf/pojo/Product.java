@@ -22,10 +22,15 @@ public class Product implements Serializable {
 	@JoinColumn(name = "category_id")
 	private Category category;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "prod_manufacturer", joinColumns = { @JoinColumn(name = "product_id") }, inverseJoinColumns = {
-			@JoinColumn(name = "manufacturer_id") })
-	private Set<Manufacturer> manufacturers;
+	/*
+	 * @ManyToMany(fetch = FetchType.EAGER)
+	 * 
+	 * @JoinTable(name = "prod_manufacturer", joinColumns = { @JoinColumn(name =
+	 * "product_id") }, inverseJoinColumns = {
+	 * 
+	 * @JoinColumn(name = "manufacturer_id") }) private Set<Manufacturer>
+	 * manufacturers;
+	 */
 
 	public int getId() {
 		return id;
@@ -73,14 +78,6 @@ public class Product implements Serializable {
 
 	public void setCategory(Category category) {
 		this.category = category;
-	}
-
-	public Set<Manufacturer> getManufacturers() {
-		return manufacturers;
-	}
-
-	public void setManufacturers(Set<Manufacturer> manufacturers) {
-		this.manufacturers = manufacturers;
 	}
 
 }

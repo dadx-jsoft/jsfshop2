@@ -2,10 +2,12 @@ package com.demojsf.bean;
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 @Named(value = "bean")
+//@SessionScoped
 @ViewScoped
 public class Bean implements Serializable {
 

@@ -6,18 +6,14 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Set;
 
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
 
 import com.demojsf.pojo.Category;
-import com.demojsf.pojo.Manufacturer;
 import com.demojsf.pojo.Product;
 import com.demojsf.service.ProductService;
 
@@ -34,7 +30,6 @@ public class ProductBean implements Serializable {
 	private String description;
 	private BigDecimal price;
 	private Category category;
-	private Set<Manufacturer> manufacturers;
 	private Part imgFile;
 
 	@Inject
@@ -71,7 +66,6 @@ public class ProductBean implements Serializable {
 		this.description = p.getDescription();
 		this.price = p.getPrice();
 		this.category = p.getCategory();
-		this.manufacturers = p.getManufacturers();
 		bean.setPage("save-update-product");
 
 //		}
@@ -102,7 +96,6 @@ public class ProductBean implements Serializable {
 		p.setDescription(this.description);
 		p.setPrice(this.price);
 		p.setCategory(this.category);
-		p.setManufacturers(this.manufacturers);
 
 		try {
 			if (this.imgFile != null) {
@@ -128,7 +121,6 @@ public class ProductBean implements Serializable {
 		p.setDescription(this.description);
 		p.setPrice(this.price);
 		p.setCategory(this.category);
-		p.setManufacturers(this.manufacturers);
 
 		try {
 			if (this.imgFile != null) {
@@ -142,9 +134,10 @@ public class ProductBean implements Serializable {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+			bean.setPage("save-update-product");
 		}
 
-		bean.setPage("save-update-product");
+		
 //		return "products";
 	}
 
@@ -206,13 +199,6 @@ public class ProductBean implements Serializable {
 		this.category = category;
 	}
 
-	public Set<Manufacturer> getManufacturers() {
-		return manufacturers;
-	}
-
-	public void setManufacturers(Set<Manufacturer> manufacturers) {
-		this.manufacturers = manufacturers;
-	}
 
 	public Part getImgFile() {
 		return imgFile;

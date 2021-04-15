@@ -9,7 +9,6 @@ import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 
 import com.demojsf.pojo.Category;
-import com.demojsf.pojo.Manufacturer;
 import com.demojsf.pojo.Product;
 
 public class HibernateUtil {
@@ -45,7 +44,6 @@ public class HibernateUtil {
 
 		conf.addAnnotatedClass(Category.class);
 		conf.addAnnotatedClass(Product.class);
-		conf.addAnnotatedClass(Manufacturer.class);
 
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 				.applySettings(conf.getProperties()).build();

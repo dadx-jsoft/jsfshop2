@@ -31,7 +31,9 @@ public class ProductService {
 //				query = query.where(builder.or(p1, p2));
 //			}
 
-			return session.createQuery(query).getResultList();
+			List<Product> list = session.createQuery(query).getResultList();
+			list.forEach(p -> session.refresh(p));
+			return list;
 		}
 	}
 
