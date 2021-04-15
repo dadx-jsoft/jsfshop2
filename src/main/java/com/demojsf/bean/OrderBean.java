@@ -1,57 +1,48 @@
 package com.demojsf.bean;
 
-import java.util.Date;
+import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
+import com.demojsf.pojo.Order;
+import com.demojsf.pojo.OrderItem;
+import com.demojsf.pojo.Product;
+import com.demojsf.service.OrderItemService;
+import com.demojsf.service.OrderService;
+
 @Named
 @RequestScoped
 public class OrderBean {
-	private String customerName;
-	private String customerAddress;
-	private String customerPhone;
-	private String customerEmail;
-	private Date orderDate;
 
-	public String getCustomerName() {
-		return customerName;
+	private Order order = new Order();
+	private List<OrderItem> orderItemsList;
+
+	static OrderService orderService = new OrderService();
+	static OrderItemService orderItemService = new OrderItemService();
+
+	public void order() {
+		orderService.addOrSaveOrder(order);
+		System.out.println("order successfully saved.");
+		for (OrderItem orderItem : orderItemsList) {
+		}
+		order = new Order();
 	}
 
-	public void setCustomerName(String customerName) {
-		this.customerName = customerName;
+	public Order getOrder() {
+		return order;
 	}
 
-	public String getCustomerAddress() {
-		return customerAddress;
+	public void setOrder(Order order) {
+		this.order = order;
 	}
 
-	public void setCustomerAddress(String customerAddress) {
-		this.customerAddress = customerAddress;
+	public List<OrderItem> getOrderItemsList() {
+		return orderItemsList;
 	}
 
-	public String getCustomerPhone() {
-		return customerPhone;
-	}
-
-	public void setCustomerPhone(String customerPhone) {
-		this.customerPhone = customerPhone;
-	}
-
-	public String getCustomerEmail() {
-		return customerEmail;
-	}
-
-	public void setCustomerEmail(String customerEmail) {
-		this.customerEmail = customerEmail;
-	}
-
-	public Date getOrderDate() {
-		return orderDate;
-	}
-
-	public void setOrderDate(Date orderDate) {
-		this.orderDate = orderDate;
+	public void setOrderItemsList(List<OrderItem> orderItemsList) {
+		this.orderItemsList = orderItemsList;
 	}
 
 }

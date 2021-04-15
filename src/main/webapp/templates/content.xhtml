@@ -8,20 +8,6 @@
 	<!-- Product Section Begin -->
 	<section class="product spad">
 		<div class="container">
-			<div class="row">
-				<!-- <div class="col-lg-4 col-md-4">
-	                <div class="section-title">
-	                    <h4>Sản phẩm mới</h4>
-	                </div>
-	            </div>
-	            <div class="col-lg-8 col-md-8">
-	                <ul class="filter__controls">
-	                    <li class="active" data-filter="*">Tất cả</li>
-	                    <li data-filter=".men">Danh mục</li>
-	                    <li data-filter=".cosmetic">Cosmetics</li>
-	                </ul>
-	            </div> -->
-			</div>
 			<div class="row property__gallery">
 
 				<c:forEach items="#{proBean.products}" var="p">
@@ -37,8 +23,8 @@
 											<f:ajax event="click" render="bag_value"
 												listener="#{cartBean.addItemToCart(p.id,p.name,p.price)}" />
 										</h:commandButton>
-										<h:commandButton value="#{pMsg['product.detail']}"
-											styleClass="btn btn-info" />
+										<!-- <h:commandButton value="#{pMsg['product.detail']}"
+											styleClass="btn btn-info" /> -->
 									</h:form>
 								</div>
 								<div class="product__item__text">

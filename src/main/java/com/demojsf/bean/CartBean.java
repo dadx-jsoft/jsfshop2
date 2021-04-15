@@ -12,12 +12,17 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
+import com.demojsf.pojo.Product;
+import com.demojsf.service.ProductService;
+
 //@ManagedBean
 @Named
 @SessionScoped
 public class CartBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	private ProductService productService;
 	
 	public CartBean() {
 	}
@@ -51,6 +56,25 @@ public class CartBean implements Serializable {
 			data.put("productId", productId);
 			data.put("productName", productName);
 			data.put("productPrice", price);
+			data.put("count", 1);
+
+			cart.put(productId, data);
+		} else {
+			Map<String, Object> data = (Map<String, Object>) cart.get(productId);
+			data.put("count", Integer.parseInt(data.get("count").toString()) + 1);
+		}
+	}
+	
+	public void addItemToCartById(int productId) {
+		Product p = productService.getProductById(productId);
+		
+		Map<Integer, Object> cart = (Map<Integer, Object>) FacesContext.getCurrentInstance().getExternalContext()
+				.getSessionMap().get("cart");
+		if (cart.get(productId) == null) {
+			Map<String, Object> data = new HashMap<String, Object>();
+			data.put("productId", productId);
+			data.put("productName", p.getName());
+			data.put("productPrice", p.getPrice());
 			data.put("count", 1);
 
 			cart.put(productId, data);
