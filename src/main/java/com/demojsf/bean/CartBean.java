@@ -22,10 +22,10 @@ public class CartBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private ProductService productService;
+	private ProductService productService = new ProductService();
 
 	private Product newProduct = new Product();
-
+	private int productId;
 	public CartBean() {
 	}
 
@@ -68,19 +68,21 @@ public class CartBean implements Serializable {
 	}
 
 	public void addItemToCartByProduct() {
-		Product p = productService.getProductById(newProduct.getId());
+		Product p = productService.getProductById(this.productId);
+		
 		Map<Integer, Object> cart = (Map<Integer, Object>) FacesContext.getCurrentInstance().getExternalContext()
 				.getSessionMap().get("cart");
-		if (cart.get(newProduct.getId()) == null) {
+		
+		if (cart.get(this.productId) == null) {
 			Map<String, Object> data = new HashMap<String, Object>();
-			data.put("productId", newProduct.getId());
+			data.put("productId", this.productId);
 			data.put("productName", p.getName());
 			data.put("productPrice", p.getPrice());
 			data.put("count", 1);
 
-			cart.put(newProduct.getId(), data);
+			cart.put(this.productId, data);
 		} else {
-			Map<String, Object> data = (Map<String, Object>) cart.get(newProduct.getId());
+			Map<String, Object> data = (Map<String, Object>) cart.get(this.productId);
 			data.put("count", Integer.parseInt(data.get("count").toString()) + 1);
 		}
 		newProduct = new Product();
@@ -111,6 +113,14 @@ public class CartBean implements Serializable {
 
 	public void setNewProduct(Product newProduct) {
 		this.newProduct = newProduct;
+	}
+
+	public int getProductId() {
+		return productId;
+	}
+
+	public void setProductId(int productId) {
+		this.productId = productId;
 	}
 
 }

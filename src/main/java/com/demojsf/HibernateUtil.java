@@ -31,9 +31,9 @@ public class HibernateUtil {
 		 */
 		
 		props.put(Environment.DRIVER, "org.postgresql.Driver");
-		props.put(Environment.URL, "jdbc:postgresql://localhost:5433/jsfsaledb?useSSL=false");
+		props.put(Environment.URL, "jdbc:postgresql://localhost:5432/jsfsaledb?useSSL=false");
 		props.put(Environment.USER, "postgres");
-		props.put(Environment.PASS, "root");
+		props.put(Environment.PASS, "postgres");
 		props.put(Environment.DIALECT, "org.hibernate.dialect.PostgreSQLDialect");
 
 //		props.put(Environment.SHOW_SQL, "true");
