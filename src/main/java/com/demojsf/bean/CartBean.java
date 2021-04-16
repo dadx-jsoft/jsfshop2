@@ -21,9 +21,11 @@ import com.demojsf.service.ProductService;
 public class CartBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private ProductService productService;
-	
+
+	private Product newProduct = new Product();
+
 	public CartBean() {
 	}
 
@@ -64,27 +66,26 @@ public class CartBean implements Serializable {
 			data.put("count", Integer.parseInt(data.get("count").toString()) + 1);
 		}
 	}
-	
-	public void addItemToCartById(int productId) {
-		Product p = productService.getProductById(productId);
-		
+
+	public void addItemToCartByProduct() {
+		Product p = productService.getProductById(newProduct.getId());
 		Map<Integer, Object> cart = (Map<Integer, Object>) FacesContext.getCurrentInstance().getExternalContext()
 				.getSessionMap().get("cart");
-		if (cart.get(productId) == null) {
+		if (cart.get(newProduct.getId()) == null) {
 			Map<String, Object> data = new HashMap<String, Object>();
-			data.put("productId", productId);
+			data.put("productId", newProduct.getId());
 			data.put("productName", p.getName());
 			data.put("productPrice", p.getPrice());
 			data.put("count", 1);
 
-			cart.put(productId, data);
+			cart.put(newProduct.getId(), data);
 		} else {
-			Map<String, Object> data = (Map<String, Object>) cart.get(productId);
+			Map<String, Object> data = (Map<String, Object>) cart.get(newProduct.getId());
 			data.put("count", Integer.parseInt(data.get("count").toString()) + 1);
 		}
+		newProduct = new Product();
 	}
-	
-	
+
 	public int getSoLuongSanPham() {
 		Map<Integer, Object> cart = (Map<Integer, Object>) FacesContext.getCurrentInstance().getExternalContext()
 				.getSessionMap().get("cart");
@@ -94,6 +95,22 @@ public class CartBean implements Serializable {
 			soLuongSanPham += Integer.parseInt(d.get("count").toString());
 		}
 		return soLuongSanPham;
+	}
+
+	public ProductService getProductService() {
+		return productService;
+	}
+
+	public void setProductService(ProductService productService) {
+		this.productService = productService;
+	}
+
+	public Product getNewProduct() {
+		return newProduct;
+	}
+
+	public void setNewProduct(Product newProduct) {
+		this.newProduct = newProduct;
 	}
 
 }

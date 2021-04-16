@@ -1,31 +1,51 @@
 package com.demojsf.bean;
 
-import java.util.List;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 import com.demojsf.pojo.Order;
 import com.demojsf.pojo.OrderItem;
 import com.demojsf.pojo.Product;
-import com.demojsf.service.OrderItemService;
 import com.demojsf.service.OrderService;
+import com.demojsf.service.ProductService;
 
 @Named
-@RequestScoped
-public class OrderBean {
+@SessionScoped
+public class OrderBean implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	private Order order = new Order();
-	private List<OrderItem> orderItemsList;
 
 	static OrderService orderService = new OrderService();
-	static OrderItemService orderItemService = new OrderItemService();
+	static ProductService productService = new ProductService();
 
 	public void order() {
+		Map<Integer, Object> cart = (Map<Integer, Object>) FacesContext.getCurrentInstance().getExternalContext()
+				.getSessionMap().get("cart");
+		for (Entry<Integer, Object> entry : cart.entrySet()) {
+			int productId = entry.getKey();
+			Product product = productService.getProductById(productId);
+			OrderItem orderItem = new OrderItem();
+			Map<String, Object> data = (Map<String, Object>) cart.get(productId);
+			orderItem.setQuantity(Integer.parseInt(data.get("count").toString()));
+			orderItem.setProduct(product);
+			order.addOrderItem(orderItem);
+		}
+
 		orderService.addOrSaveOrder(order);
 		System.out.println("order successfully saved.");
-		for (OrderItem orderItem : orderItemsList) {
-		}
+		
+		Map sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+//		sessionMap.clear();
+		sessionMap.put("cart", new HashMap<>());
+		
 		order = new Order();
 	}
 
@@ -37,12 +57,5 @@ public class OrderBean {
 		this.order = order;
 	}
 
-	public List<OrderItem> getOrderItemsList() {
-		return orderItemsList;
-	}
-
-	public void setOrderItemsList(List<OrderItem> orderItemsList) {
-		this.orderItemsList = orderItemsList;
-	}
 
 }

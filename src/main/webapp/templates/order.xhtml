@@ -35,12 +35,12 @@
 				</tr>
 				<tr>
 					<td><h:outputLabel value="Ngày order:" /></td>
-					<td><h:inputText converter="DateConverter"
+					<td><h:inputText converter="DateConverter" 
 							value="#{orderBean.order.orderDate}" required="true" /></td>
 				</tr>
 				<tr>
-					<td><h:commandButton value="Đặt hàng"
-							action="" styleClass="btn btn-success" />
+					<td><h:commandButton value="Đặt hàng" action="#{orderBean.order()}"
+							 styleClass="btn btn-success" />
 					</td>
 				</tr>
 
@@ -48,7 +48,7 @@
 
 		</h:form>
 
-		<h:dataTable var="cart" value="#{cartBean.carts}" styleClass="table">
+		<h:dataTable id="cartTable" var="cart" value="#{cartBean.carts}" styleClass="table">
 			<h:column>
 				<f:facet name="header">#{pMsg['product.id']}</f:facet>
 					#{cart['productId']}
@@ -75,12 +75,12 @@
 			<table>
 				<tr>
 					<td><h:outputLabel value="Nhập id sản phẩm:" /></td>
-					<td><h:inputText id="proId" /></td>
+					<td><h:inputText value="#{cartBean.newProduct.id}" /></td>
 				</tr>
 				<tr>
-					<td><h:commandButton value="Thêm" styleClass="btn btn-primary">
-							<!-- <f:ajax event="click" render="@all"
-								listener="#{cartBean.addItemToCart(proId)}" /> -->
+					<td><h:commandButton action="#{cartBean.addItemToCartByProduct()}"
+					value="Thêm" styleClass="btn btn-primary">
+							<f:ajax render="cartTable bag_value"/>
 						</h:commandButton></td>
 				</tr>
 			</table>

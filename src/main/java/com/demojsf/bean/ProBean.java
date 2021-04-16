@@ -111,6 +111,6 @@ public class ProBean implements Serializable {
 
 	public static void setProductService(ProductService productService) {
 		ProBean.productService = productService;
-	}  
-	
+	}
+
 }

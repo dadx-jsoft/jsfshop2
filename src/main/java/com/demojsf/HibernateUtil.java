@@ -9,6 +9,8 @@ import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 
 import com.demojsf.pojo.Category;
+import com.demojsf.pojo.Order;
+import com.demojsf.pojo.OrderItem;
 import com.demojsf.pojo.Product;
 
 public class HibernateUtil {
@@ -29,9 +31,9 @@ public class HibernateUtil {
 		 */
 		
 		props.put(Environment.DRIVER, "org.postgresql.Driver");
-		props.put(Environment.URL, "jdbc:postgresql://localhost:5432/jsfsaledb?useSSL=false");
+		props.put(Environment.URL, "jdbc:postgresql://localhost:5433/jsfsaledb?useSSL=false");
 		props.put(Environment.USER, "postgres");
-		props.put(Environment.PASS, "postgres");
+		props.put(Environment.PASS, "root");
 		props.put(Environment.DIALECT, "org.hibernate.dialect.PostgreSQLDialect");
 
 //		props.put(Environment.SHOW_SQL, "true");
@@ -44,7 +46,8 @@ public class HibernateUtil {
 
 		conf.addAnnotatedClass(Category.class);
 		conf.addAnnotatedClass(Product.class);
-
+		conf.addAnnotatedClass(Order.class);
+		conf.addAnnotatedClass(OrderItem.class);
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 				.applySettings(conf.getProperties()).build();
 

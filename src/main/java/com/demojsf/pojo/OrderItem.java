@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "order_item", schema = "public")
-public class OrderItem implements Serializable{
+public class OrderItem implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -26,6 +26,8 @@ public class OrderItem implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "product_id", nullable = false)
 	private Product product;
+
+	private int quantity;
 
 	public int getId() {
 		return id;
@@ -49,6 +51,14 @@ public class OrderItem implements Serializable{
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 
 }

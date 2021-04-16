@@ -1,6 +1,7 @@
 package com.demojsf.pojo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -88,6 +89,23 @@ public class Order implements Serializable {
 
 	public void setOrderItems(List<OrderItem> orderItems) {
 		this.orderItems = orderItems;
+	}
+	
+	public OrderItem addOrderItem(OrderItem orderItem) {
+		if(this.orderItems == null) {
+			this.orderItems = new ArrayList<OrderItem>();
+		}
+		getOrderItems().add(orderItem);
+		orderItem.setOrder(this);
+		
+		return orderItem;
+	}
+
+	public OrderItem removeSaleorderProduct(OrderItem orderItem) {
+		getOrderItems().remove(orderItem);
+		orderItem.setOrder(null);
+
+		return orderItem;
 	}
 
 }

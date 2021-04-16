@@ -85,7 +85,7 @@ ALTER TABLE public.manufacturer OWNER TO postgres;
 --
 
 CREATE TABLE public."order" (
-    id integer NOT NULL,
+    id SERIAL,
     customer_name character varying,
     customer_address character varying,
     customer_phone character varying,
@@ -102,7 +102,7 @@ ALTER TABLE public."order" OWNER TO postgres;
 --
 
 CREATE TABLE public.order_item (
-    id integer NOT NULL,
+    id SERIAL,
     order_id integer NOT NULL,
     product_id integer NOT NULL
 );
