@@ -40,7 +40,7 @@
 				<tr>
 					<td><h:commandButton value="Đặt hàng"
 							action="#{orderBean.order()}" styleClass="btn btn-success">
-							<f:ajax execute="orderTable" render="cartTable bag_value"/>
+							<f:ajax execute="orderTable" render="cartTable bag_value" />
 						</h:commandButton></td>
 				</tr>
 
@@ -71,7 +71,7 @@
 			</h:column>
 		</h:dataTable>
 
-		<h:form id="addProductForm">
+		<!-- <h:form id="addProductForm">
 			<h3>Thêm sản phẩm</h3>
 			<table>
 				<tr>
@@ -86,6 +86,6 @@
 						</h:commandButton></td>
 				</tr>
 			</table>
-		</h:form>
+		</h:form> -->
 	</div>
 </ui:composition>
