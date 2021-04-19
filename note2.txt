@@ -1,3 +1,5 @@
 + trang order: thay đổi 1 field (onchange) thì update lại vào db
 + bỏ nút thêm: giờ mỗi dòng sẽ có 1 ô input để mình thay đổi sản phẩm
 + trang product list: cần onchange và bỏ nút update trong cái dialog
+
+ https://stackoverflow.com/questions/23988432/pass-hinputtext-value-to-fajax-listener

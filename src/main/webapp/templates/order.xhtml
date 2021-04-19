@@ -54,26 +54,29 @@
 			styleClass="table">
 			<h:column>
 				<f:facet name="header">#{pMsg['product.id']}</f:facet>
-					#{cart['productId']}
-				</h:column>
+					
+					<h:inputText id="addProductInput" value="#{cart['productId']}" valueChangeListener="#{cartBean.addItemToCartByProduct()}" >
+					     <f:ajax event="change" execute="addProductInput" render="cartTable bag_value addProductInput" />
+					</h:inputText>
+			</h:column>
 			<h:column>
 				<f:facet name="header">#{pMsg['product.name']}</f:facet>
 					#{cart['productName']}
-				</h:column>
+			</h:column>
 			<h:column>
 				<f:facet name="header">#{pMsg['product.price']}</f:facet>
 					#{cart['productPrice']}
-				</h:column>
+			</h:column>
 			<h:column>
 				<f:facet name="header">#{pMsg['cart.count']}</f:facet>
 					#{cart['count']}
-				</h:column>
+			</h:column>
 			<h:column>
 				<f:facet name="header"></f:facet>
 			</h:column>
 		</h:dataTable>
 
-		<h:form id="addProductForm">
+		<!-- <h:form id="addProductForm">
 			<h3>Thêm sản phẩm</h3>
 			<table>
 				<tr>
@@ -88,6 +91,6 @@
 						</h:commandButton></td>
 				</tr>
 			</table>
-		</h:form>
+		</h:form> -->
 	</div>
 </ui:composition>

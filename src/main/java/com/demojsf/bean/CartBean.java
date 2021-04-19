@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Named;
 
 import com.demojsf.pojo.Product;
@@ -25,7 +26,7 @@ public class CartBean implements Serializable {
 	private ProductService productService = new ProductService();
 
 	private Product newProduct = new Product();
-	private int productId;
+//	private int productId;
 	public CartBean() {
 	}
 
@@ -67,22 +68,23 @@ public class CartBean implements Serializable {
 		}
 	}
 
-	public void addItemToCartByProduct() {
-		Product p = productService.getProductById(this.productId);
+	public void addItemToCartByProduct(ValueChangeEvent event) {
+		int productId = Integer.parseInt(event.getNewValue().toString());
+		Product p = productService.getProductById(productId);
 		
 		Map<Integer, Object> cart = (Map<Integer, Object>) FacesContext.getCurrentInstance().getExternalContext()
 				.getSessionMap().get("cart");
 		
-		if (cart.get(this.productId) == null) {
+		if (cart.get(productId) == null) {
 			Map<String, Object> data = new HashMap<String, Object>();
-			data.put("productId", this.productId);
+			data.put("productId", productId);
 			data.put("productName", p.getName());
 			data.put("productPrice", p.getPrice());
 			data.put("count", 1);
 
-			cart.put(this.productId, data);
+			cart.put(productId, data);	
 		} else {
-			Map<String, Object> data = (Map<String, Object>) cart.get(this.productId);
+			Map<String, Object> data = (Map<String, Object>) cart.get(productId);
 			data.put("count", Integer.parseInt(data.get("count").toString()) + 1);
 		}
 		newProduct = new Product();
@@ -115,12 +117,12 @@ public class CartBean implements Serializable {
 		this.newProduct = newProduct;
 	}
 
-	public int getProductId() {
-		return productId;
-	}
-
-	public void setProductId(int productId) {
-		this.productId = productId;
-	}
+//	public int getProductId() {
+//		return productId;
+//	}
+//
+//	public void setProductId(int productId) {
+//		this.productId = productId;
+//	}
 
 }
