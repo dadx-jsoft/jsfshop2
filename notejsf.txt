@@ -22,3 +22,21 @@ rowexpantion của primefaces, trường date trên primefaces sẽ làm việc 
 + 9h52: cách support UTF-8 trong eclipse
 
 + tham khảo dùng primefaces + hibernate: https://www.c-sharpcorner.com/article/primefaces-5-and-hibernate-5-crud-using-netbeans-8-02-and-my/
+
+fix lỗi: 9h41 ngày 19/04/2021
++ Vấn đề về date: 
+	Khi convert string sang date bằng SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy"); Date result = format.parse(dateStr); sẽ gặp vấn đề: 
+	- Nếu nhập tháng lớn hơn 12 nó sẽ chuyển sang năm sau
+		vd: nhập 13/20/2021 -> nó sẽ hiểu là ngày 20, tháng 1, năm 2022
+	- Tương tự khi nhập tháng < 1 nó sẽ lùi về năm trước
+		vd: nhập 0/20/2021 -> nó sẽ hiểu là ngày 20, tháng 12, năm 2020
+		nhập -1/20/2021 -> nó sẽ hiểu là ngày 20, tháng 11, năm 2020
+	- Cách giải quyết: https://stackoverflow.com/questions/1905551/make-simpledateformat-parse-fail-on-invalid-dates-e-g-month-is-greater-than
+	==> format.setLenient(false);
+	
++ Tôi bị lỗi file order.xhtml không hiển thị error khi convert hoặc validate input bị false vì tôi gọi ajax hàm performOrder()
+	Giải quyết: https://stackoverflow.com/questions/18585042/validator-is-called-but-error-message-is-not-displayed
+	thêm render="@form ..."
+
++ Có thể bạn đã biết: trình tự gọi: converter rồi đến validator
+	https://stackoverflow.com/questions/18462909/invocation-sequence-of-jsf-converters-and-validators

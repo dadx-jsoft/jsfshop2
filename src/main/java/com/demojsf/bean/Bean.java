@@ -16,7 +16,8 @@ public class Bean implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		page = "product-list"; // Default include.
+//		page = "product-list"; // Default include.
+		page = "order";
 	}
 
 	public String getPage() {

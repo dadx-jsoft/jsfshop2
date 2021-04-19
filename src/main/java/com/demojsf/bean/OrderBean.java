@@ -26,7 +26,7 @@ public class OrderBean implements Serializable{
 	static OrderService orderService = new OrderService();
 	static ProductService productService = new ProductService();
 
-	public void order() {
+	public void performOrder() {
 		Map<Integer, Object> cart = (Map<Integer, Object>) FacesContext.getCurrentInstance().getExternalContext()
 				.getSessionMap().get("cart");
 		for (Entry<Integer, Object> entry : cart.entrySet()) {

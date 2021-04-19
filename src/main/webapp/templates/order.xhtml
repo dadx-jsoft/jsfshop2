@@ -9,38 +9,40 @@
 			<table>
 				<tr>
 					<td><h:outputLabel value="Họ và tên:" /></td>
-					<td><h:inputText id="name"
+					<td><h:inputText id="nameCus"
 							value="#{orderBean.order.customerName}"
-							validator="InputTextEmptyValidator" /> <h:message for="name"
+							validator="InputTextEmptyValidator" /> <h:message for="nameCus"
 							style="color: red;" /></td>
 				</tr>
 				<tr>
 					<td><h:outputLabel value="Địa chỉ:" /></td>
-					<td><h:inputText id="address"
+					<td><h:inputText id="addressCus"
 							value="#{orderBean.order.customerAddress}" required="true" /> <h:message
-							for="address" style="color: red;" /></td>
+							for="addressCus" style="color: red;" /></td>
 				</tr>
 				<tr>
 					<td><h:outputLabel value="Số điện thoại:" /></td>
-					<td><h:inputText id="phone"
+					<td><h:inputText id="phoneCus"
 							value="#{orderBean.order.customerPhone}" required="true" /> <h:message
-							for="phone" style="color: red;" /></td>
+							for="phoneCus" style="color: red;" /></td>
 				</tr>
 				<tr>
 					<td><h:outputLabel value="Email:" /></td>
-					<td><h:inputText id="email" validator="EmailValidator"
+					<td><h:inputText id="emailCus" validator="EmailValidator"
 							value="#{orderBean.order.customerEmail}" required="true" /> <h:message
-							for="email" style="color: red;" /></td>
+							for="emailCus" style="color: red;" /></td>
 				</tr>
 				<tr>
 					<td><h:outputLabel value="Ngày order:" /></td>
-					<td><h:inputText converter="DateConverter"
-							value="#{orderBean.order.orderDate}" required="true" /></td>
+					<td><h:inputText id="dateOrder" converter="DateConverter" 
+							value="#{orderBean.order.orderDate}" required="true" />
+							 <h:message
+							for="dateOrder" style="color: red;" /></td>
 				</tr>
 				<tr>
 					<td><h:commandButton value="Đặt hàng"
-							action="#{orderBean.order()}" styleClass="btn btn-success">
-							<f:ajax execute="orderTable" render="cartTable bag_value" />
+							action="#{orderBean.performOrder()}" styleClass="btn btn-success">
+							<f:ajax execute="orderTable" render="cartTable bag_value @form" />
 						</h:commandButton></td>
 				</tr>
 
@@ -71,7 +73,7 @@
 			</h:column>
 		</h:dataTable>
 
-		<!-- <h:form id="addProductForm">
+		<h:form id="addProductForm">
 			<h3>Thêm sản phẩm</h3>
 			<table>
 				<tr>
@@ -86,6 +88,6 @@
 						</h:commandButton></td>
 				</tr>
 			</table>
-		</h:form> -->
+		</h:form>
 	</div>
 </ui:composition>

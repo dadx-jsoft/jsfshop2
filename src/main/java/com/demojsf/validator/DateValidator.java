@@ -1,7 +1,5 @@
 package com.demojsf.validator;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.faces.application.FacesMessage;
@@ -16,11 +14,10 @@ public class DateValidator implements Validator {
 
 	@Override
 	public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-		String dateStr = value.toString();
 		try {
-			Date date = new SimpleDateFormat("MM/dd/yyyy").parse(dateStr);
-		} catch (ParseException e) {
-			FacesMessage msg = new FacesMessage("Date is incorrect");
+			Date date = (Date) value;
+		}catch(Exception e) {
+			FacesMessage msg = new FacesMessage("<<< Date is incorrect >>>");
 			throw new ValidatorException(msg);
 		}
 	}
