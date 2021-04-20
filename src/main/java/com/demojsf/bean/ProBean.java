@@ -52,24 +52,19 @@ public class ProBean implements Serializable {
 //        RequestContext.getCurrentInstance().showMessageInDialog(message1);  
         productService.addOrSaveProduct(product);
         System.out.println("Product Info successfully updated.");  
-//        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Save Information", "User updated successfully .");  
+//        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Save Information", "User updated successfully.");  
 //        RequestContext.getCurrentInstance().showMessageInDialog(message);  
         product = new Product();  
     }  
 	public void deleteProduct(Product product)  
     {  
-//        String Name = user.getName();  
-        //FacesMessage message3= new FacesMessage(FacesMessage.SEVERITY_INFO, "Delete Item",contactName);  
-        // RequestContext.getCurrentInstance().showMessageInDialog(message3);  
-        productService.deleteProduct(product);
-        System.out.println("Product Info successfully deleted.");  
-//        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Delete", "Record deleted successfully");  
-//        RequestContext.getCurrentInstance().showMessageInDialog(message);  
+//        productService.deleteProduct(product);
+		System.out.println("Product Info successfully deleted."+product.getId());  
     }  
 	
 	public void onRowEdit(RowEditEvent event)  
     {  
-        FacesMessage msg = new FacesMessage(" Edited product name: ", ((Product) event.getObject()).getName());  
+        FacesMessage msg = new FacesMessage("Edited product name: ", ((Product) event.getObject()).getName());  
         FacesContext.getCurrentInstance().addMessage(null, msg);  
         Product editedProduct= (Product) event.getObject();  
         productService.addOrSaveProduct(editedProduct);

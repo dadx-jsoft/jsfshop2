@@ -14,14 +14,16 @@
 					<h:outputLabel for="productname" value="product Name: *" />
 					<p:inputText id="productname" value="#{proBean.newProduct.name}"
 						label="Product Name" placeholder="Product Name" />
-
+					
 					<h:outputLabel for="productdescription"
 						value="product Description: *" />
+					
 					<p:inputText id="productdescription"
 						value="#{proBean.newProduct.description}" label="Description"
 						placeholder="Description" />
 
 					<h:outputLabel for="productprice" value="Price" />
+					
 					<p:inputText id="productprice" label="Price"
 						value="#{proBean.newProduct.price}" placeholder="price" />
 
@@ -32,7 +34,7 @@
 						<f:selectItems var="cat" value="#{cateBean.categories}"
 							itemLabel="#{cat.name}" itemValue="#{cat}" />
 					</p:selectOneMenu>
-
+					
 					<!-- <p:outputLabel for="dob" value="User Date of Birth" />
 
 					<p:calendar id="dob" value="#{userBean.newuser.dob}"
@@ -40,7 +42,6 @@
 						effect="slideDown" requiredMessage="Please Enter Date of Birth!"
 						navigator="true" showButtonPanel="true" yearRange="c-60:c+60"
 						placeholder="Date of Birth" /> -->
-
 
 					<p:commandButton value="add" process="@form" id="AddButtonId"
 						ajax="true" icon="ui-icon-plus" update=":form1:productTable"
@@ -88,7 +89,6 @@
 					navigator="true" showButtonPanel="true" yearRange="c-60:c+60"
 					placeholder="Date of Birth" /> -->
 
-
 					<p:commandButton value="Update" ajax="true" icon="ui-icon-disk"
 						update=":form1:productTable"
 						actionListener="#{proBean.updateProduct(proBean.product)}" />
@@ -109,13 +109,13 @@
 				</p:column>
 				<p:column headerText="Name">  
                 #{product.name}  
-            </p:column>
-				<p:column headerText="Description">  
-                #{product.description}  
-            </p:column>
-				<p:column headerText="Price">  
-                #{product.price}  
-            </p:column>
+	            </p:column>
+					<p:column headerText="Description">  
+	                #{product.description}  
+	            </p:column>
+					<p:column headerText="Price">  
+	                #{product.price}  
+	            </p:column>
 				<p:column headerText="Category">
 					<h:outputText value="#{product.category.name}" />
 				</p:column>
@@ -139,7 +139,7 @@
 					<p:confirmDialog message="Bạn có chắc muốn xóa?" header="Xóa"
 						severity="alert" widgetVar="confirmDialog">
 						<p:commandButton value="Đồng ý" update=":form1:productTable"
-							action="#{proBean.deleteProduct(product)}"
+							actionListener="#{proBean.deleteProduct(product)}"
 							oncomplete="PF('confirmDialog').hide()" />
 
 						<p:commandButton value="Hủy" onclick="PF('confirmDialog').hide();"

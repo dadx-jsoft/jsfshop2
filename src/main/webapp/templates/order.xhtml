@@ -6,47 +6,82 @@
 	<h1 class="text-center">#{pMsg['cart.subject']}</h1>
 	<div class="container">
 		<h:form id="orderTable">
+			<h:inputHidden value="#{orderBean.order.id}"/>
 			<table>
 				<tr>
 					<td><h:outputLabel value="Họ và tên:" /></td>
 					<td><h:inputText id="nameCus"
 							value="#{orderBean.order.customerName}"
-							validator="InputTextEmptyValidator" /> <h:message for="nameCus"
-							style="color: red;" /></td>
+							required="true" requiredMessage="Please enter value">
+							<f:ajax event="blur" render="namevalidate" execute="orderTable" listener="#{orderBean.updateOrder()}"/>
+						</h:inputText> 
+						<h:message id="namevalidate" for="nameCus" style="color: red;" />
+					</td>
 				</tr>
 				<tr>
 					<td><h:outputLabel value="Địa chỉ:" /></td>
-					<td><h:inputText id="addressCus"
-							value="#{orderBean.order.customerAddress}" required="true" /> <h:message
-							for="addressCus" style="color: red;" /></td>
+					<td>
+						<h:inputText id="addressCus"
+							value="#{orderBean.order.customerAddress}" 
+							required="true" requiredMessage="Please enter value"
+							validatorMessage="Address's length is between 5 and 10">
+							<f:validateLength maximum="10" minimum="5"/>
+							<f:ajax event="blur" render="addrvalidate" execute="orderTable" listener="#{orderBean.updateOrder()}" />
+						</h:inputText> 
+						<h:message id="addrvalidate" for="addressCus" style="color: red;" />
+					</td>
 				</tr>
 				<tr>
 					<td><h:outputLabel value="Số điện thoại:" /></td>
-					<td><h:inputText id="phoneCus"
-							value="#{orderBean.order.customerPhone}" required="true" /> <h:message
-							for="phoneCus" style="color: red;" /></td>
+					<td>
+						<h:inputText id="phoneCus"
+							value="#{orderBean.order.customerPhone}" 
+							required="true" requiredMessage="Please enter value">
+							<f:ajax event="blur" render="phonevalidate" execute="orderTable" listener="#{orderBean.updateOrder()}"/>
+						</h:inputText> 
+						<h:message id="phonevalidate" for="phoneCus" style="color: red;" />
+					</td>
 				</tr>
 				<tr>
 					<td><h:outputLabel value="Email:" /></td>
-					<td><h:inputText id="emailCus" validator="EmailValidator"
-							value="#{orderBean.order.customerEmail}" required="true" /> <h:message
-							for="emailCus" style="color: red;" /></td>
+					<td>
+						<h:inputText id="emailCus" validator="EmailValidator"
+							value="#{orderBean.order.customerEmail}" 
+							required="true" requiredMessage="Please enter value"
+							validatorMessage="Email format: demo@gmail.com">
+							<f:ajax event="blur" render="emailvalidate" execute="orderTable" listener="#{orderBean.updateOrder()}"/>
+						</h:inputText> 
+						<h:message id="emailvalidate" for="emailCus" style="color: red;" />
+					</td>
 				</tr>
 				<tr>
 					<td><h:outputLabel value="Ngày order:" /></td>
-					<td><h:inputText id="dateOrder" converter="DateConverter" 
-							value="#{orderBean.order.orderDate}" required="true" />
-							 <h:message
-							for="dateOrder" style="color: red;" /></td>
+					<td>
+						<h:inputText id="dateOrder" converter="DateConverter" 
+							value="#{orderBean.order.orderDate}" 
+							required="true" requiredMessage="Please enter value"
+							converterMessage="Date format: MM-dd-yyyy">
+							<f:ajax event="blur" render="datevalidate" execute="orderTable" listener="#{orderBean.updateOrder()}"/>
+						</h:inputText> 
+						<h:message id="datevalidate" for="dateOrder" style="color: red;" />
+					</td>
 				</tr>
 				<tr>
 					<td><h:commandButton value="Đặt hàng"
+							onclick="deleteButton(this)"
 							action="#{orderBean.performOrder()}" styleClass="btn btn-success">
 							<f:ajax execute="orderTable" render="cartTable bag_value @form" />
-						</h:commandButton></td>
+						</h:commandButton>
+					</td>
 				</tr>
 
-			</table>
+			</table>		
+			
+			<script>
+				function deleteButton(button) {
+				    button.disabled = true;
+				}
+			</script>
 
 		</h:form>
 
