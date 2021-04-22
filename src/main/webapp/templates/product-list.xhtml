@@ -13,26 +13,37 @@
 				<p:panelGrid columns="2">
 					<h:outputLabel for="productname" value="product Name: *" />
 					<p:inputText id="productname" value="#{proBean.newProduct.name}"
-						label="Product Name" placeholder="Product Name" />
+						label="Product Name" placeholder="Product Name" 
+						required="true" requiredMessage="Please enter value">
+						<p:ajax event="blur" update="productname form1" process="productDetail1" listener="#{proBean.addProduct()}"/>
+					</p:inputText>
 					
 					<h:outputLabel for="productdescription"
 						value="product Description: *" />
 					
 					<p:inputText id="productdescription"
 						value="#{proBean.newProduct.description}" label="Description"
-						placeholder="Description" />
+						placeholder="Description" 
+						required="true" requiredMessage="Please enter value">
+						<p:ajax event="blur" update="productdescription form1" process="productDetail1" listener="#{proBean.addProduct()}"/>
+					</p:inputText>
 
 					<h:outputLabel for="productprice" value="Price" />
 					
 					<p:inputText id="productprice" label="Price"
-						value="#{proBean.newProduct.price}" placeholder="price" />
+						value="#{proBean.newProduct.price}" placeholder="price" 
+						required="true" requiredMessage="Please enter value">
+						<p:ajax event="blur" update="productprice form1" process="productDetail1" listener="#{proBean.addProduct()}"/>
+					</p:inputText>
 
 					<h:outputLabel for="cate" value="Choose Category" />
 					<p:selectOneMenu id="cate" label="Choose Category"
 						converter="CategoryConverter"
-						value="#{proBean.newProduct.category}" effect="fold">
+						value="#{proBean.newProduct.category}" effect="fold"
+						required="true" requiredMessage="Please select value">
 						<f:selectItems var="cat" value="#{cateBean.categories}"
 							itemLabel="#{cat.name}" itemValue="#{cat}" />
+						<p:ajax event="blur" update="cate form1" process="productDetail1" listener="#{proBean.addProduct()}"/>
 					</p:selectOneMenu>
 					
 					<!-- <p:outputLabel for="dob" value="User Date of Birth" />
@@ -43,10 +54,10 @@
 						navigator="true" showButtonPanel="true" yearRange="c-60:c+60"
 						placeholder="Date of Birth" /> -->
 
-					<p:commandButton value="add" process="@form" id="AddButtonId"
+					<!-- <p:commandButton value="add" process="@form" id="AddButtonId"
 						ajax="true" icon="ui-icon-plus" update=":form1:productTable"
 						actionListener="#{proBean.addProduct()}"
-						oncomplete="PF('$productDetail1').hide()" />
+						oncomplete="PF('$productDetail1').hide()" /> -->
 
 				</p:panelGrid>
 			</h:form>
@@ -56,31 +67,42 @@
 			header="Cập nhật sản phẩm" hideEffect="explode" appendTo="@(body)"
 			resizable="false" draggable="false" closeOnEscape="true">
 			<h:form>
-				<h:inputHidden value="#{proBean.product.id}" />
+				<p:inputText type="hidden"  value="#{proBean.product.id}"/>
 				<p:panelGrid columns="2">
 					<h:outputLabel for="productid" value="Id: *" />
 					<p:inputText id="productid" value="#{proBean.product.id}"
-						label="id" placeholder="id" />
+						label="id" placeholder="id" >
+						<p:ajax event="blur" update="productid form1" process="productDetail2" listener="#{proBean.updateProduct(proBean.product)}"/>
+					</p:inputText>
 
 					<h:outputLabel for="productname" value="Product Name: *" />
 					<p:inputText id="productname" value="#{proBean.product.name}"
-						label="Product Name" placeholder="Product Name" />
+						label="Product Name" placeholder="Product Name" >
+						<p:ajax event="blur" update="productname form1" process="productDetail2" listener="#{proBean.updateProduct(proBean.product)}"/>
+					</p:inputText>
 
 					<h:outputLabel for="productdescription" value="Description: *" />
 					<p:inputText id="productdescription"
 						value="#{proBean.product.description}" label="Description"
-						placeholder="Description" />
+						placeholder="Description" >
+						<p:ajax event="blur" update="productdescription form1" process="productDetail2" listener="#{proBean.updateProduct(proBean.product)}"/>
+					</p:inputText>
 
 					<h:outputLabel for="productprice" value="Price: *" />
 					<p:inputText id="productprice" value="#{proBean.product.price}"
-						label="Product Price" placeholder="Product Price" />
+						label="Product Price" placeholder="Product Price" >
+						<p:ajax event="blur" update="productprice form1" process="productDetail2" listener="#{proBean.updateProduct(proBean.product)}"/>
+					</p:inputText>
+						
 
 					<h:outputLabel for="cateUpdate" value="Choose Category" />
 					<p:selectOneMenu id="cateUpdate" label="Choose Category"
 						converter="CategoryConverter" value="#{proBean.product.category}"
 						effect="fold">
 						<f:selectItems var="cat" value="#{cateBean.categories}"
-							itemLabel="#{cat.name}" itemValue="#{cat}" />
+							itemLabel="#{cat.name}" itemValue="#{cat}" >
+						</f:selectItems>
+						<p:ajax event="blur" update="cateUpdate form1" process="productDetail2" listener="#{proBean.updateProduct(proBean.product)}"/>
 					</p:selectOneMenu>
 
 					<!-- <p:calendar id="dob" value="#{userBean.user.dob}"
@@ -89,9 +111,9 @@
 					navigator="true" showButtonPanel="true" yearRange="c-60:c+60"
 					placeholder="Date of Birth" /> -->
 
-					<p:commandButton value="Update" ajax="true" icon="ui-icon-disk"
+					<!-- <p:commandButton value="Update" ajax="true" icon="ui-icon-disk"
 						update=":form1:productTable"
-						actionListener="#{proBean.updateProduct(proBean.product)}" />
+						actionListener="#{proBean.updateProduct(proBean.product)}" /> -->
 				</p:panelGrid>
 			</h:form>
 

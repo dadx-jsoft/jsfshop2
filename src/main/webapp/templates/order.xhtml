@@ -49,7 +49,7 @@
 							value="#{orderBean.order.customerEmail}" 
 							required="true" requiredMessage="Please enter value"
 							validatorMessage="Email format: demo@gmail.com">
-							<f:ajax event="blur" render="emailvalidate" execute="orderTable" listener="#{orderBean.updateOrder()}"/>
+							<f:ajax event="blur" render="emailvalidate" execute="orderTable" listener="#{orderBean.updateOrder()}" />
 						</h:inputText> 
 						<h:message id="emailvalidate" for="emailCus" style="color: red;" />
 					</td>
@@ -67,8 +67,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td><h:commandButton value="Đặt hàng"
-							onclick="deleteButton(this)"
+					<td><h:commandButton value="Đặt hàng" rendered="#{orderBean.showButton}"
 							action="#{orderBean.performOrder()}" styleClass="btn btn-success">
 							<f:ajax execute="orderTable" render="cartTable bag_value @form" />
 						</h:commandButton>
@@ -77,21 +76,16 @@
 
 			</table>		
 			
-			<script>
-				function deleteButton(button) {
-				    button.disabled = true;
-				}
-			</script>
-
 		</h:form>
-
+	
+		<h:panelGroup id="panelCart">
 		<h:dataTable id="cartTable" var="cart" value="#{cartBean.carts}"
 			styleClass="table">
 			<h:column>
 				<f:facet name="header">#{pMsg['product.id']}</f:facet>
 					
-					<h:inputText id="addProductInput" value="#{cart['productId']}" valueChangeListener="#{cartBean.addItemToCartByProduct()}" >
-					     <f:ajax event="change" execute="addProductInput" render="cartTable bag_value addProductInput" />
+					<h:inputText id="addProductInput" value="#{cart['productId']}" onchange="submit()" valueChangeListener="#{cartBean.cartChanged}">
+					     
 					</h:inputText>
 			</h:column>
 			<h:column>
@@ -108,9 +102,13 @@
 			</h:column>
 			<h:column>
 				<f:facet name="header"></f:facet>
+				<h:commandButton styleClass="btn btn-danger" value="Xóa"> 
+					<f:ajax execute="addProductInput" render="panelCart bag_value" 
+							listener="#{cartBean.deleteItemInCart(cart['productId'])}"/>
+				</h:commandButton>
 			</h:column>
 		</h:dataTable>
-
+		</h:panelGroup>
 		<!-- <h:form id="addProductForm">
 			<h3>Thêm sản phẩm</h3>
 			<table>

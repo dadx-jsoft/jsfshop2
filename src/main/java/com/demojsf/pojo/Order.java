@@ -101,7 +101,7 @@ public class Order implements Serializable {
 		return orderItem;
 	}
 
-	public OrderItem removeSaleorderProduct(OrderItem orderItem) {
+	public OrderItem removeOrderItem(OrderItem orderItem) {
 		getOrderItems().remove(orderItem);
 		orderItem.setOrder(null);
 

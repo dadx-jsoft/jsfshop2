@@ -1,8 +1,8 @@
 package com.demojsf.bean;
+
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
@@ -17,7 +17,8 @@ public class Bean implements Serializable {
 	@PostConstruct
 	public void init() {
 //		page = "product-list"; // Default include.
-		page = "order";
+//		page = "order";
+		page = "content";
 	}
 
 	public String getPage() {

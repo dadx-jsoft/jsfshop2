@@ -17,11 +17,12 @@ import com.demojsf.service.ProductService;
 
 @Named
 @SessionScoped
-public class OrderBean implements Serializable{
+public class OrderBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private Order order = new Order();
+	private boolean showButton = true;
 
 	static OrderService orderService = new OrderService();
 	static ProductService productService = new ProductService();
@@ -40,35 +41,37 @@ public class OrderBean implements Serializable{
 		}
 
 		orderService.addOrSaveOrder(order);
-		System.out.println("order "+order.getId()+" successfully saved.");
-		
+		System.out.println("order " + order.getId() + " successfully saved.");
+
 		Map sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
 //		sessionMap.clear();
 		sessionMap.put("cart", new HashMap<>());
-		
+		this.showButton = false;
 	}
-	
+
 	public void updateOrder() {
 		Map<Integer, Object> cart = (Map<Integer, Object>) FacesContext.getCurrentInstance().getExternalContext()
 				.getSessionMap().get("cart");
-		for (Entry<Integer, Object> entry : cart.entrySet()) {
-			int productId = entry.getKey();
-			Product product = productService.getProductById(productId);
-			OrderItem orderItem = new OrderItem();
-			Map<String, Object> data = (Map<String, Object>) cart.get(productId);
-			orderItem.setQuantity(Integer.parseInt(data.get("count").toString()));
-			orderItem.setProduct(product);
-			order.addOrderItem(orderItem);
-		}
-		
-		orderService.addOrSaveOrder(order);
-		System.out.println("order "+order.getId()+" successfully updated.");
-		
-		Map sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-//		sessionMap.clear();
-		sessionMap.put("cart", new HashMap<>());
-	}
+		if (order.getId() > 0) {
+			for (Entry<Integer, Object> entry : cart.entrySet()) {
+				int productId = entry.getKey();
+				Product product = productService.getProductById(productId);
+				OrderItem orderItem = new OrderItem();
+				Map<String, Object> data = (Map<String, Object>) cart.get(productId);
+				orderItem.setQuantity(Integer.parseInt(data.get("count").toString()));
+				orderItem.setProduct(product);
+				order.addOrderItem(orderItem);
+			}
+			orderService.addOrSaveOrder(order);
+			System.out.println("order " + order.getId() + " successfully updated.");
 
+			Map sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+//			sessionMap.clear();
+			sessionMap.put("cart", new HashMap<>());
+		}
+
+	}
+	
 	public Order getOrder() {
 		return order;
 	}
@@ -77,5 +80,12 @@ public class OrderBean implements Serializable{
 		this.order = order;
 	}
 
+	public boolean isShowButton() {
+		return showButton;
+	}
+
+	public void setShowButton(boolean showButton) {
+		this.showButton = showButton;
+	}
 
 }

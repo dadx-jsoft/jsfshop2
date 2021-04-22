@@ -22,6 +22,7 @@ public class ProductService {
 			CriteriaQuery<Product> query = builder.createQuery(Product.class);
 			Root<Product> root = query.from(Product.class);
 			query.select(root);
+			query.orderBy(builder.asc(root.get("name")));
 
 //			if (kw != null && !kw.isEmpty()) {
 //				String p = String.format("%%%s%%", kw);
