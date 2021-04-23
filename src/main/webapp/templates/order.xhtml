@@ -84,8 +84,11 @@
 			<h:column>
 				<f:facet name="header">#{pMsg['product.id']}</f:facet>
 					
-					<h:inputText id="addProductInput" value="#{cart['productId']}" onchange="submit()" valueChangeListener="#{cartBean.cartChanged}">
-					     
+					<h:outputText value="#{cart['productId']}" readonly="true">
+					
+					</h:outputText>
+					<h:inputText id="addProductInput" value="#{cartBean.productId}" >
+						<f:ajax event="change" execute="panelCart" render="panelCart bag_value" listener="#{cartBean.performCartChanged()}"/>
 					</h:inputText>
 			</h:column>
 			<h:column>

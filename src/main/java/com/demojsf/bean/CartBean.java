@@ -10,7 +10,9 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AbortProcessingException;
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.event.ValueChangeListener;
 import javax.inject.Named;
 
 import com.demojsf.pojo.Product;
@@ -19,7 +21,7 @@ import com.demojsf.service.ProductService;
 //@ManagedBean
 @Named
 @SessionScoped
-public class CartBean implements Serializable {
+public class CartBean implements Serializable, ValueChangeListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -27,16 +29,38 @@ public class CartBean implements Serializable {
 
 	private Product newProduct = new Product();
 
-//	private int productId;
+	
 	public CartBean() {
 	}
-
+	
 	@PostConstruct
 	public void init() {
 		Map sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
 		if (sessionMap.get("cart") == null) {
 			sessionMap.put("cart", new HashMap<>());
 		}
+	}
+	
+	public void performCartChanged(int productId+) {
+		System.out.println("==================" + productId);
+		Map<Integer, Object> cart = (Map<Integer, Object>) FacesContext.getCurrentInstance().getExternalContext()
+				.getSessionMap().get("cart");
+		if (productId > 0) {
+			Product product = productService.getProductById(productId);
+			if (cart.get(productId) == null) {
+				Map<String, Object> data = new HashMap<String, Object>();
+				data.put("productId", productId);
+				data.put("productName", product.getName());
+				data.put("productPrice", product.getPrice());
+				data.put("count", 1);
+
+				cart.put(productId, data);
+			} else {
+				Map<String, Object> data = (Map<String, Object>) cart.get(productId);
+				data.put("count", Integer.parseInt(data.get("count").toString()) + 1);
+			}
+		}
+		productId=0;
 	}
 
 	public List<Map<String, Object>> getCarts() {
@@ -70,27 +94,6 @@ public class CartBean implements Serializable {
 	}
 
 	public void addItemToCart(int productId) {
-		Map<Integer, Object> cart = (Map<Integer, Object>) FacesContext.getCurrentInstance().getExternalContext()
-				.getSessionMap().get("cart");
-		if (productId > 0) {
-			Product product = productService.getProductById(productId);
-			if (cart.get(productId) == null) {
-				Map<String, Object> data = new HashMap<String, Object>();
-				data.put("productId", productId);
-				data.put("productName", product.getName());
-				data.put("productPrice", product.getPrice());
-				data.put("count", 1);
-
-				cart.put(productId, data);
-			} else {
-				Map<String, Object> data = (Map<String, Object>) cart.get(productId);
-				data.put("count", Integer.parseInt(data.get("count").toString()) + 1);
-			}
-		}
-	}
-	
-	public void cartChanged(ValueChangeEvent e) {
-		int productId = Integer.parseInt(e.getNewValue().toString());
 		Map<Integer, Object> cart = (Map<Integer, Object>) FacesContext.getCurrentInstance().getExternalContext()
 				.getSessionMap().get("cart");
 		if (productId > 0) {
@@ -145,12 +148,30 @@ public class CartBean implements Serializable {
 		this.newProduct = newProduct;
 	}
 
-//	public int getProductId() {
-//		return productId;
-//	}
-//
-//	public void setProductId(int productId) {
-//		this.productId = productId;
-//	}
+	@Override
+	public void processValueChange(ValueChangeEvent e) throws AbortProcessingException {
+		if (null != e.getNewValue()) {
+			int productId = Integer.parseInt(e.getNewValue().toString());
+			System.out.println("==================" + productId);
+			Map<Integer, Object> cart = (Map<Integer, Object>) FacesContext.getCurrentInstance().getExternalContext()
+					.getSessionMap().get("cart");
+			if (productId > 0) {
+				Product product = productService.getProductById(productId);
+				if (cart.get(productId) == null) {
+					Map<String, Object> data = new HashMap<String, Object>();
+					data.put("productId", productId);
+					data.put("productName", product.getName());
+					data.put("productPrice", product.getPrice());
+					data.put("count", 1);
+
+					cart.put(productId, data);
+				} else {
+					Map<String, Object> data = (Map<String, Object>) cart.get(productId);
+					data.put("count", Integer.parseInt(data.get("count").toString()) + 1);
+				}
+			}
+		}
+	}
+
 
 }
