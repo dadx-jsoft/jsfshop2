@@ -41,7 +41,7 @@ public class CartBean implements Serializable, ValueChangeListener {
 		}
 	}
 	
-	public void performCartChanged(int productId+) {
+	public void performCartChanged(int productId) {
 		System.out.println("==================" + productId);
 		Map<Integer, Object> cart = (Map<Integer, Object>) FacesContext.getCurrentInstance().getExternalContext()
 				.getSessionMap().get("cart");
