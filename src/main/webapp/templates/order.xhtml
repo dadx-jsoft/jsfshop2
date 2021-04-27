@@ -1,7 +1,8 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 
 	<h1 class="text-center">#{pMsg['cart.subject']}</h1>
 	<div class="container">
@@ -13,7 +14,7 @@
 					<td><h:inputText id="nameCus"
 							value="#{orderBean.order.customerName}"
 							required="true" requiredMessage="Please enter value">
-							<f:ajax event="blur" render="namevalidate" execute="orderTable" listener="#{orderBean.updateOrder()}"/>
+							<f:ajax event="blur" render="namevalidate" execute="orderTable" listener="#{orderBean.updateOrder(null)}"/>
 						</h:inputText> 
 						<h:message id="namevalidate" for="nameCus" style="color: red;" />
 					</td>
@@ -26,7 +27,7 @@
 							required="true" requiredMessage="Please enter value"
 							validatorMessage="Address's length is between 5 and 10">
 							<f:validateLength maximum="10" minimum="5"/>
-							<f:ajax event="blur" render="addrvalidate" execute="orderTable" listener="#{orderBean.updateOrder()}" />
+							<f:ajax event="blur" render="addrvalidate" execute="orderTable" listener="#{orderBean.updateOrder(null)}" />
 						</h:inputText> 
 						<h:message id="addrvalidate" for="addressCus" style="color: red;" />
 					</td>
@@ -37,7 +38,7 @@
 						<h:inputText id="phoneCus"
 							value="#{orderBean.order.customerPhone}" 
 							required="true" requiredMessage="Please enter value">
-							<f:ajax event="blur" render="phonevalidate" execute="orderTable" listener="#{orderBean.updateOrder()}"/>
+							<f:ajax event="blur" render="phonevalidate" execute="orderTable" listener="#{orderBean.updateOrder(null)}"/>
 						</h:inputText> 
 						<h:message id="phonevalidate" for="phoneCus" style="color: red;" />
 					</td>
@@ -49,7 +50,7 @@
 							value="#{orderBean.order.customerEmail}" 
 							required="true" requiredMessage="Please enter value"
 							validatorMessage="Email format: demo@gmail.com">
-							<f:ajax event="blur" render="emailvalidate" execute="orderTable" listener="#{orderBean.updateOrder()}" />
+							<f:ajax event="blur" render="emailvalidate" execute="orderTable" listener="#{orderBean.updateOrder(null)}" />
 						</h:inputText> 
 						<h:message id="emailvalidate" for="emailCus" style="color: red;" />
 					</td>
@@ -57,76 +58,62 @@
 				<tr>
 					<td><h:outputLabel value="Ngày order:" /></td>
 					<td>
-						<h:inputText id="dateOrder" converter="DateConverter" 
+						<h:inputText id="dateOrder" converter="DateConverter" validator="DateValidator"
 							value="#{orderBean.order.orderDate}" 
 							required="true" requiredMessage="Please enter value"
 							converterMessage="Date format: MM-dd-yyyy">
-							<f:ajax event="blur" render="datevalidate" execute="orderTable" listener="#{orderBean.updateOrder()}"/>
+							<f:ajax event="blur" render="datevalidate" execute="orderTable" listener="#{orderBean.updateOrder(null)}"/>
 						</h:inputText> 
 						<h:message id="datevalidate" for="dateOrder" style="color: red;" />
 					</td>
 				</tr>
 				<tr>
-					<td><h:commandButton value="Đặt hàng" rendered="#{orderBean.showButton}"
+					<td>
+						<h:commandButton value="Đặt hàng" rendered="#{orderBean.showButton}"
 							action="#{orderBean.performOrder()}" styleClass="btn btn-success">
 							<f:ajax execute="orderTable" render="cartTable bag_value @form" />
 						</h:commandButton>
 					</td>
 				</tr>
-
+				
 			</table>		
 			
 		</h:form>
-	
 		<h:panelGroup id="panelCart">
-		<h:dataTable id="cartTable" var="cart" value="#{cartBean.carts}"
+		<h:dataTable id="cartTable" var="item" value="#{cartBean.orderItems}"
 			styleClass="table">
-			<h:column>
-				<f:facet name="header">#{pMsg['product.id']}</f:facet>
+				<h:column>
+					<f:facet name="header">#{pMsg['product.id']}</f:facet>
 					
-					<h:outputText value="#{cart['productId']}" readonly="true">
-					
-					</h:outputText>
-					<h:inputText id="addProductInput" value="#{cartBean.productId}" >
-						<f:ajax event="change" execute="panelCart" render="panelCart bag_value" listener="#{cartBean.performCartChanged()}"/>
-					</h:inputText>
-			</h:column>
-			<h:column>
+					<h:form id="formChange">
+						<h:inputText value="#{item.product.id}" readonly="#{orderBean.hideInput}">
+							<f:ajax event="change" execute="panelCart"
+								render="panelCart bag_value"
+								listener="#{orderBean.updateOrder(item.product.id)}">
+							</f:ajax>
+						</h:inputText>
+					</h:form>
+				</h:column>
+				<h:column>
 				<f:facet name="header">#{pMsg['product.name']}</f:facet>
-					#{cart['productName']}
+					#{item.product.name}
 			</h:column>
 			<h:column>
 				<f:facet name="header">#{pMsg['product.price']}</f:facet>
-					#{cart['productPrice']}
+					#{item.product.price}
 			</h:column>
 			<h:column>
 				<f:facet name="header">#{pMsg['cart.count']}</f:facet>
-					#{cart['count']}
+					#{item.quantity}
 			</h:column>
 			<h:column>
 				<f:facet name="header"></f:facet>
-				<h:commandButton styleClass="btn btn-danger" value="Xóa"> 
-					<f:ajax execute="addProductInput" render="panelCart bag_value" 
-							listener="#{cartBean.deleteItemInCart(cart['productId'])}"/>
+				<h:commandButton styleClass="btn btn-danger" value="Xóa" action="#{orderBean.updateOrder(null)}">
+					<f:ajax execute="cartTable" render="panelCart bag_value" 
+							listener="#{cartBean.deleteItemInCart(item.product)}"/>
 				</h:commandButton>
 			</h:column>
 		</h:dataTable>
 		</h:panelGroup>
-		<!-- <h:form id="addProductForm">
-			<h3>Thêm sản phẩm</h3>
-			<table>
-				<tr>
-					<td><h:outputLabel value="Nhập id sản phẩm:" /></td>
-					<td><h:inputText id="addProductInput" value="#{cartBean.productId}" /></td>
-				</tr>
-				<tr>
-					<td><h:commandButton
-							action="#{cartBean.addItemToCartByProduct()}" value="Thêm"
-							styleClass="btn btn-primary">
-							<f:ajax execute="addProductInput" render="cartTable bag_value" />
-						</h:commandButton></td>
-				</tr>
-			</table>
-		</h:form> -->
 	</div>
 </ui:composition>

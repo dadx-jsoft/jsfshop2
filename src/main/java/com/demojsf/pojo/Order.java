@@ -102,6 +102,9 @@ public class Order implements Serializable {
 	}
 
 	public OrderItem removeOrderItem(OrderItem orderItem) {
+		if(this.getOrderItems() == null) {
+			return null;
+		}
 		getOrderItems().remove(orderItem);
 		orderItem.setOrder(null);
 

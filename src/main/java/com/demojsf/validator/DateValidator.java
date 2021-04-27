@@ -14,12 +14,9 @@ public class DateValidator implements Validator {
 
 	@Override
 	public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-		try {
-			Date date = (Date) value;
-		}catch(Exception e) {
-			FacesMessage msg = new FacesMessage("<<< Date is incorrect >>>");
-			throw new ValidatorException(msg);
-		}
+		Date date = (Date) value;
+		if (date.before(new Date(2021,4,1,0,0,0)))
+			throw new ValidatorException(new FacesMessage("<<< Date is incorrect >>>"));
 	}
 
 }

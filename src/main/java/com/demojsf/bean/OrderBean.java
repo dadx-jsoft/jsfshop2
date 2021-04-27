@@ -1,17 +1,15 @@
 package com.demojsf.bean;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.ArrayList;
 
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.demojsf.pojo.Order;
 import com.demojsf.pojo.OrderItem;
-import com.demojsf.pojo.Product;
+import com.demojsf.service.OrderItemService;
 import com.demojsf.service.OrderService;
 import com.demojsf.service.ProductService;
 
@@ -23,55 +21,49 @@ public class OrderBean implements Serializable {
 
 	private Order order = new Order();
 	private boolean showButton = true;
+	private boolean hideInput = true;
 
 	static OrderService orderService = new OrderService();
 	static ProductService productService = new ProductService();
+	OrderItemService orderItemService = new OrderItemService();
+	
+	@Inject
+	private CartBean cartBean;
 
 	public void performOrder() {
-		Map<Integer, Object> cart = (Map<Integer, Object>) FacesContext.getCurrentInstance().getExternalContext()
-				.getSessionMap().get("cart");
-		for (Entry<Integer, Object> entry : cart.entrySet()) {
-			int productId = entry.getKey();
-			Product product = productService.getProductById(productId);
-			OrderItem orderItem = new OrderItem();
-			Map<String, Object> data = (Map<String, Object>) cart.get(productId);
-			orderItem.setQuantity(Integer.parseInt(data.get("count").toString()));
-			orderItem.setProduct(product);
+		
+		if(cartBean.getOrderItems().size() == 0) { // giỏ hàng trống
+			return;
+		}
+		for (OrderItem orderItem : cartBean.getOrderItems()) {
 			order.addOrderItem(orderItem);
 		}
 
 		orderService.addOrSaveOrder(order);
 		System.out.println("order " + order.getId() + " successfully saved.");
 
-		Map sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-//		sessionMap.clear();
-		sessionMap.put("cart", new HashMap<>());
 		this.showButton = false;
+		this.setHideInput(false);
 	}
 
-	public void updateOrder() {
-		Map<Integer, Object> cart = (Map<Integer, Object>) FacesContext.getCurrentInstance().getExternalContext()
-				.getSessionMap().get("cart");
+	public void updateOrder(Integer proId) {
+		if(null != proId) {
+			if(cartBean.updateCart(proId, this.order) == false) {
+				System.out.println("order " + order.getId() + " can not updated.");
+				return;
+			}
+		}
 		if (order.getId() > 0) {
-			for (Entry<Integer, Object> entry : cart.entrySet()) {
-				int productId = entry.getKey();
-				Product product = productService.getProductById(productId);
-				OrderItem orderItem = new OrderItem();
-				Map<String, Object> data = (Map<String, Object>) cart.get(productId);
-				orderItem.setQuantity(Integer.parseInt(data.get("count").toString()));
-				orderItem.setProduct(product);
+			order.setOrderItems(new ArrayList<OrderItem>());
+			for (OrderItem orderItem : cartBean.getOrderItems()) {
 				order.addOrderItem(orderItem);
 			}
+
 			orderService.addOrSaveOrder(order);
 			System.out.println("order " + order.getId() + " successfully updated.");
-
-			Map sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-//			sessionMap.clear();
-			sessionMap.put("cart", new HashMap<>());
 		}
-
 	}
-	
+
 	public Order getOrder() {
 		return order;
 	}
@@ -87,5 +79,14 @@ public class OrderBean implements Serializable {
 	public void setShowButton(boolean showButton) {
 		this.showButton = showButton;
 	}
+
+	public boolean isHideInput() {
+		return hideInput;
+	}
+
+	public void setHideInput(boolean hideInput) {
+		this.hideInput = hideInput;
+	}
+
 
 }

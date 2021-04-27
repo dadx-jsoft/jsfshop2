@@ -10,7 +10,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
-import javax.faces.validator.ValidatorException;
 
 @FacesConverter(value = "DateConverter")
 public class DateConverter implements Converter {

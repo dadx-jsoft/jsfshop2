@@ -21,7 +21,7 @@
 										<h:commandButton value="#{pMsg['product.addToCart']}"
 											styleClass="btn btn-warning">
 											<f:ajax event="click" render="bag_value"
-												listener="#{cartBean.addItemToCart(p.id,p.name,p.price)}" />
+												listener="#{cartBean.addItemToCart(p.id)}" />
 										</h:commandButton>
 										<!-- <h:commandButton value="#{pMsg['product.detail']}"
 											styleClass="btn btn-info" /> -->

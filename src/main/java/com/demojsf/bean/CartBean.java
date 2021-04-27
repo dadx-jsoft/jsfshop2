@@ -1,177 +1,117 @@
 package com.demojsf.bean;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.faces.event.AbortProcessingException;
-import javax.faces.event.ValueChangeEvent;
-import javax.faces.event.ValueChangeListener;
 import javax.inject.Named;
 
+import com.demojsf.pojo.Order;
+import com.demojsf.pojo.OrderItem;
 import com.demojsf.pojo.Product;
+import com.demojsf.service.OrderItemService;
 import com.demojsf.service.ProductService;
 
-//@ManagedBean
 @Named
 @SessionScoped
-public class CartBean implements Serializable, ValueChangeListener {
+public class CartBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private ProductService productService = new ProductService();
+	private ProductService productService;
 
-	private Product newProduct = new Product();
+	private List<OrderItem> orderItems;
 
-	
+	private OrderItemService orderItemService;
+
 	public CartBean() {
 	}
-	
+
 	@PostConstruct
 	public void init() {
-		Map sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-		if (sessionMap.get("cart") == null) {
-			sessionMap.put("cart", new HashMap<>());
-		}
-	}
-	
-	public void performCartChanged(int productId) {
-		System.out.println("==================" + productId);
-		Map<Integer, Object> cart = (Map<Integer, Object>) FacesContext.getCurrentInstance().getExternalContext()
-				.getSessionMap().get("cart");
-		if (productId > 0) {
-			Product product = productService.getProductById(productId);
-			if (cart.get(productId) == null) {
-				Map<String, Object> data = new HashMap<String, Object>();
-				data.put("productId", productId);
-				data.put("productName", product.getName());
-				data.put("productPrice", product.getPrice());
-				data.put("count", 1);
-
-				cart.put(productId, data);
-			} else {
-				Map<String, Object> data = (Map<String, Object>) cart.get(productId);
-				data.put("count", Integer.parseInt(data.get("count").toString()) + 1);
-			}
-		}
-		productId=0;
-	}
-
-	public List<Map<String, Object>> getCarts() {
-		Map<Integer, Object> cart = (Map<Integer, Object>) FacesContext.getCurrentInstance().getExternalContext()
-				.getSessionMap().get("cart");
-
-		List<Map<String, Object>> kq = new ArrayList<>();
-		for (Object o : cart.values()) {
-			Map<String, Object> d = (Map<String, Object>) o;
-			kq.add(d);
-		}
-
-		return kq;
-	}
-
-	public void addItemToCart(int productId, String productName, BigDecimal price) {
-		Map<Integer, Object> cart = (Map<Integer, Object>) FacesContext.getCurrentInstance().getExternalContext()
-				.getSessionMap().get("cart");
-		if (cart.get(productId) == null) {
-			Map<String, Object> data = new HashMap<String, Object>();
-			data.put("productId", productId);
-			data.put("productName", productName);
-			data.put("productPrice", price);
-			data.put("count", 1);
-
-			cart.put(productId, data);
-		} else {
-			Map<String, Object> data = (Map<String, Object>) cart.get(productId);
-			data.put("count", Integer.parseInt(data.get("count").toString()) + 1);
-		}
+		orderItems = new ArrayList<>();
+		productService = new ProductService();
+		orderItemService = new OrderItemService();
 	}
 
 	public void addItemToCart(int productId) {
-		Map<Integer, Object> cart = (Map<Integer, Object>) FacesContext.getCurrentInstance().getExternalContext()
-				.getSessionMap().get("cart");
-		if (productId > 0) {
-			Product product = productService.getProductById(productId);
-			if (cart.get(productId) == null) {
-				Map<String, Object> data = new HashMap<String, Object>();
-				data.put("productId", productId);
-				data.put("productName", product.getName());
-				data.put("productPrice", product.getPrice());
-				data.put("count", 1);
 
-				cart.put(productId, data);
-			} else {
-				Map<String, Object> data = (Map<String, Object>) cart.get(productId);
-				data.put("count", Integer.parseInt(data.get("count").toString()) + 1);
+		if (productId > 0) {
+			if (getOrderItemByProductId(productId) == null) { // chưa có sp trong giỏ
+				Product product = productService.getProductById(productId);
+				OrderItem newItem = new OrderItem();
+				newItem.setProduct(product);
+				newItem.setQuantity(1);
+				orderItems.add(newItem);
+			} else { // đã tồn tại sp trong giỏ
+				OrderItem oldItem = getOrderItemByProductId(productId);
+				oldItem.setQuantity(oldItem.getQuantity() + 1);
 			}
 		}
+
 	}
 
-	public void deleteItemInCart(int productId) {
-		Map<Integer, Object> cart = (Map<Integer, Object>) FacesContext.getCurrentInstance().getExternalContext()
-				.getSessionMap().get("cart");
-		if (cart.get(productId) != null) {
-			cart.remove(productId);
+	public boolean updateCart(Integer proId, Order o) {
+		if (proId > 0) {
+			// không tồn tại product
+			Product p = productService.getProductById(proId);
+			if(p == null) { // lấy lại ds item trong db cho bào giỏ hàng
+				orderItems = orderItemService.getOrderItemsByOrderId(o);
+				return false;
+			}
+			
+			orderItems = orderItemService.getOrderItemsByOrderId(o);
+			if (getOrderItemByProductId(proId) == null) { // chưa có sp trong giỏ
+				Product product = productService.getProductById(proId);
+				OrderItem newItem = new OrderItem();
+				newItem.setProduct(product);
+				newItem.setQuantity(1);
+				orderItems.add(newItem);
+			} else { // đã tồn tại sp trong giỏ
+				OrderItem oldItem = getOrderItemByProductId(proId);
+				oldItem.setQuantity(oldItem.getQuantity() + 1);
+			}
 		}
+		return true;
+		
+	}
+
+	public void deleteItemInCart(Product p) {
+		// c1
+		Iterator<OrderItem> iterator = orderItems.iterator();
+		while (iterator.hasNext()) {
+			OrderItem orderItem = iterator.next();
+			if (orderItem.getProduct() == p) {
+				// languages.remove(language); // Don't use ArrayList.remove()
+				iterator.remove();
+				orderItemService.deleteOrderItem(orderItem); // xóa trong db
+			}
+		}
+		// c2
+//		orderItems.removeIf(orderItem -> orderItem.getProduct() == p);
 	}
 
 	public int getSoLuongSanPham() {
-		Map<Integer, Object> cart = (Map<Integer, Object>) FacesContext.getCurrentInstance().getExternalContext()
-				.getSessionMap().get("cart");
-		int soLuongSanPham = 0;
-		for (Object o : cart.values()) {
-			Map<String, Object> d = (Map<String, Object>) o;
-			soLuongSanPham += Integer.parseInt(d.get("count").toString());
+		return orderItems.size();
+	}
+
+	public List<OrderItem> getOrderItems() {
+		return this.orderItems;
+	}
+
+	public void setOrderItems(List<OrderItem> orderItems) {
+		this.orderItems = orderItems;
+	}
+
+	private OrderItem getOrderItemByProductId(int id) {
+		for (OrderItem orderItem : orderItems) {
+			if (orderItem.getProduct().getId() == id)
+				return orderItem;
 		}
-		return soLuongSanPham;
+		return null;
 	}
-
-	public ProductService getProductService() {
-		return productService;
-	}
-
-	public void setProductService(ProductService productService) {
-		this.productService = productService;
-	}
-
-	public Product getNewProduct() {
-		return newProduct;
-	}
-
-	public void setNewProduct(Product newProduct) {
-		this.newProduct = newProduct;
-	}
-
-	@Override
-	public void processValueChange(ValueChangeEvent e) throws AbortProcessingException {
-		if (null != e.getNewValue()) {
-			int productId = Integer.parseInt(e.getNewValue().toString());
-			System.out.println("==================" + productId);
-			Map<Integer, Object> cart = (Map<Integer, Object>) FacesContext.getCurrentInstance().getExternalContext()
-					.getSessionMap().get("cart");
-			if (productId > 0) {
-				Product product = productService.getProductById(productId);
-				if (cart.get(productId) == null) {
-					Map<String, Object> data = new HashMap<String, Object>();
-					data.put("productId", productId);
-					data.put("productName", product.getName());
-					data.put("productPrice", product.getPrice());
-					data.put("count", 1);
-
-					cart.put(productId, data);
-				} else {
-					Map<String, Object> data = (Map<String, Object>) cart.get(productId);
-					data.put("count", Integer.parseInt(data.get("count").toString()) + 1);
-				}
-			}
-		}
-	}
-
 
 }
